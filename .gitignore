@@ -1,0 +1,60 @@
+# Garmin Connect IQ specifické soubory
+*.iq
+*.prg
+*.jungle.backup
+*.prg.debug.xml
+*.prg.debug.xml.tmp
+
+# Generované soubory bindingu
+bin/
+bin
+
+bin-release/
+bin-debug/
+*.d
+
+# Garmin developer key
+developer_key
+developer_key.der
+
+# Dočasné soubory
+*.tmp
+*.bak
+*.swp
+*~.nib
+.settings/
+
+# Garmin Connect IQ simulátor
+simulator/
+
+# Garmin Connect IQ device files
+*.pmw0
+*.pmw1
+*.pmw2
+*.pmw3
+
+# Adresáře závislostí a výstupů
+build/
+out/
+
+# Zálohovací soubory editoru
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Systémové soubory
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Eclipse specifické soubory
+.project
+.classpath
+
+# Monkey C specifické cache
+.connectiq-mb-temp/
+
+# Log soubory
+*.log

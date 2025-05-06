@@ -1,0 +1,12 @@
+# Simple Jungle file for Peak Sleep widget
+
+project.manifest = manifest.xml
+
+# Specify the source code path
+base.sourcePath = source
+
+# Specify the resource path (using wildcards)
+base.resourcePath = resources
+
+# Specify the default language (optional, but good practice)
+base.lang = eng

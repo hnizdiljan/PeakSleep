@@ -1,0 +1,24 @@
+<strings>
+    <string id="AppName">Peak Sleep</string>
+
+    <string id="labelBodyBattery">BB</string>
+    <string id="labelHeartRate">HR</string>
+    <string id="labelEstSleep">Sleep</string>
+    <string id="labelRhr">RHR</string>
+    <string id="labelRechargeRate">Rate</string>
+
+    <string id="valueNotAvailable">N/A</string>
+    <string id="valueCalculating">...</string>
+    <string id="valueChargeNotPossible">Cannot recharge</string>
+    <string id="valueFull">Full</string>
+
+    <!-- Ikony popisky (pro případné použití v nápovědě) -->
+    <string id="iconBodyBattery">Body Battery icon</string>
+    <string id="iconHeartRate">Heart Rate icon</string>
+    <string id="iconSleep">Sleep icon</string>
+
+    <!-- Settings -->
+    <string id="settingTitleRechargeRate">Recharge Rate</string>
+    <string id="settingPromptRechargeRate">Avg BB points/hour</string>
+
+</strings> 

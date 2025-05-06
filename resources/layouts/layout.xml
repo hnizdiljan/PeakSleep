@@ -1,0 +1,84 @@
+<layout id="MainLayout">
+    <!-- Layout for the main widget view - optimized margins -->
+    <bitmap id="iconBodyBattery" x="10%" y="10%" filename="../drawables/battery_icon.png"/>
+    <label id="bodyBatteryLabel"
+           x="20%" y="12%"
+           text="@Strings.labelBodyBattery"
+           font="Graphics.FONT_XTINY"
+           justification="Graphics.TEXT_JUSTIFY_LEFT" 
+           color="Graphics.COLOR_LT_GRAY"/>
+    <label id="bodyBatteryValue"
+           x="80%" y="12%"
+           text="@Strings.valueCalculating"
+           font="Graphics.FONT_XTINY"
+           justification="Graphics.TEXT_JUSTIFY_RIGHT" 
+           color="Graphics.COLOR_WHITE"/>
+
+    <bitmap id="iconHeartRate" x="10%" y="23%" filename="../drawables/heart_icon.png"/>
+    <label id="heartRateLabel"
+           x="20%" y="25%"
+           text="@Strings.labelHeartRate"
+           font="Graphics.FONT_XTINY"
+           justification="Graphics.TEXT_JUSTIFY_LEFT" 
+           color="Graphics.COLOR_LT_GRAY"/>
+    <label id="heartRateValue"
+           x="80%" y="25%"
+           text="@Strings.valueCalculating"
+           font="Graphics.FONT_XTINY"
+           justification="Graphics.TEXT_JUSTIFY_RIGHT" 
+           color="Graphics.COLOR_WHITE"/>
+
+    <!-- RHR a Rate - přesunuty pod sebe na levou a pravou stranu -->
+    <label id="rhrLabel"
+           x="20%" y="35%"
+           text="@Strings.labelRhr"
+           font="Graphics.FONT_XTINY"
+           justification="Graphics.TEXT_JUSTIFY_LEFT" 
+           color="Graphics.COLOR_DK_GRAY"/>
+     <label id="rhrValue"
+           x="40%" y="35%"
+           text="--"
+           font="Graphics.FONT_XTINY"
+           justification="Graphics.TEXT_JUSTIFY_LEFT" 
+           color="Graphics.COLOR_LT_GRAY"/>
+
+     <label id="rechargeRateLabel"
+           x="20%" y="40%"
+           text="@Strings.labelRechargeRate"
+           font="Graphics.FONT_XTINY"
+           justification="Graphics.TEXT_JUSTIFY_LEFT" 
+           color="Graphics.COLOR_DK_GRAY"/>
+     <label id="rechargeRateValue"
+           x="40%" y="40%"
+           text="--"
+           font="Graphics.FONT_XTINY"
+           justification="Graphics.TEXT_JUSTIFY_LEFT" 
+           color="Graphics.COLOR_LT_GRAY"/>
+           
+    <!-- Oddělovací čára -->
+    <bitmap id="divider1" x="10%" y="47%" filename="../drawables/divider.png"/>
+    
+    <!-- Výsledek - zvýrazněný - posunuto nahoru -->
+    <bitmap id="iconSleep" x="center" y="50%" filename="../drawables/sleep_icon.png"/>
+    <label id="estSleepLabel"
+           x="center" y="58%" 
+           text="@Strings.labelEstSleep"
+           font="Graphics.FONT_MEDIUM"
+           justification="Graphics.TEXT_JUSTIFY_CENTER" 
+           color="Graphics.COLOR_YELLOW"/>
+    <label id="estSleepValue"
+           x="center" y="72%"
+           text="@Strings.valueCalculating"
+           font="Graphics.FONT_LARGE"
+           justification="Graphics.TEXT_JUSTIFY_CENTER" 
+           color="Graphics.COLOR_WHITE"/>
+           
+    <!-- Wake-up time - odsazeno dále a menší font -->
+    <label id="wakeUpTime"
+           x="center" y="87%"
+           text=""
+           font="Graphics.FONT_XTINY"
+           justification="Graphics.TEXT_JUSTIFY_CENTER" 
+           color="Graphics.COLOR_LT_GRAY"/>
+
+</layout> 

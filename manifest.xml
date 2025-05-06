@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!-- Basic manifest for the Peak Sleep widget -->
+<iq:manifest version="3" xmlns:iq="http://www.garmin.com/xml/connectiq">
+    <iq:application id="40c6cc86-86aa-47c0-a43e-21e877c19f8a" type="widget" name="@Strings.AppName" launcherIcon="@Drawables.LauncherIcon" entry="PeakSleepApp" minApiLevel="3.1.0">
+        <!-- Minimum API level for Body Battery -->
+        <iq:products>
+            <!-- Add specific compatible devices here, e.g.: -->
+            <!-- opraveno z forerunner245 -->
+            <!-- opraveno z forerunner945 -->
+            <!-- Add more compatible devices supporting CIQ 3+ and Body Battery -->
+            <iq:product id="fenix6"/>
+            <iq:product id="fenix6pro"/>
+            <iq:product id="fenix6s"/>
+            <iq:product id="fenix6spro"/>
+            <iq:product id="fenix6xpro"/>
+            <iq:product id="fenix7"/>
+            <iq:product id="fenix7pro"/>
+            <iq:product id="fenix7pronowifi"/>
+            <iq:product id="fenix7s"/>
+            <iq:product id="fenix7spro"/>
+            <iq:product id="fenix7x"/>
+            <iq:product id="fenix7xpro"/>
+            <iq:product id="fenix7xpronowifi"/>
+            <iq:product id="fenix843mm"/>
+            <iq:product id="fenix847mm"/>
+            <iq:product id="fenix8solar47mm"/>
+            <iq:product id="fenix8solar51mm"/>
+            <iq:product id="fr245"/>
+            <iq:product id="fr645"/>
+            <iq:product id="fr645m"/>
+            <iq:product id="fr745"/>
+            <iq:product id="fr935"/>
+            <iq:product id="fr945"/>
+            <iq:product id="fr945lte"/>
+            <iq:product id="fr955"/>
+            <iq:product id="fr965"/>
+            <iq:product id="venu"/>
+            <iq:product id="venu2"/>
+            <iq:product id="vivoactive4"/>
+            <iq:product id="vivoactive4s"/>
+            <iq:product id="vivoactive5"/>
+            <iq:product id="vivoactive6"/>
+        </iq:products>
+        <iq:permissions>
+            <!-- Needed for Heart Rate -->
+            <!-- Needed for Body Battery & RHR -->
+            <!-- Potentially needed for widgets -->
+            <!-- Might be needed depending on exact sensor access -->
+            <iq:uses-permission id="Sensor"/>
+            <iq:uses-permission id="SensorHistory"/>
+            <iq:uses-permission id="UserProfile"/>
+        </iq:permissions>
+        <iq:languages>
+            <!-- Add other languages if needed, e.g., <iq:language>ces</iq:language> -->
+            <iq:language>eng</iq:language>
+        </iq:languages>
+        <iq:barrels/>
+    </iq:application>
+</iq:manifest>

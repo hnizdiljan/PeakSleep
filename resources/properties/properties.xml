@@ -1,0 +1,3 @@
+<properties>
+    <property id="baseRechargeRate" type="number">10</property>
+</properties>

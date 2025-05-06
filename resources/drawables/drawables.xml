@@ -1,0 +1,8 @@
+<drawables>
+    <bitmap id="LauncherIcon" filename="launcher_icon.png" />
+    <bitmap id="battery_icon" filename="battery_icon.png" />
+    <bitmap id="heart_icon" filename="heart_icon.png" />
+    <bitmap id="sleep_icon" filename="sleep_icon.png" />
+    <bitmap id="divider" filename="divider.png" />
+    <!-- Add other drawables/icons if needed -->
+</drawables>

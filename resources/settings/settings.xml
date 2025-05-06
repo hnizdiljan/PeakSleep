@@ -1,0 +1,8 @@
+<settings>
+    <setting propertyKey="@Properties.baseRechargeRate" title="@Strings.settingTitleRechargeRate">
+        <settingConfig type="numeric"
+                     required="true"
+                     min="1"
+                     max="30" />
+    </setting>
+</settings>
