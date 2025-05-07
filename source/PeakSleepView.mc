@@ -97,7 +97,7 @@ class PeakSleepView extends WatchUi.View {
         var wakeUpTime = calculateWakeUpTime(sleepTimeHours);
 
         // 7. Format and Update UI Labels
-        updateUiLabels(dc, currentBB, avgHR, restingHR, baseRechargeRate, sleepTimeHours, bbNeeded, wakeUpTime);
+        updateUiLabels(dc, currentBB, avgHR, restingHR, adjustedRechargeRate, sleepTimeHours, bbNeeded, wakeUpTime);
 
         // Call the parent onUpdate function to draw the layout
         View.onUpdate(dc);
