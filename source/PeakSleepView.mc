@@ -9,6 +9,7 @@ import Toybox.Activity;
 import Toybox.SensorHistory;
 import Toybox.Time;
 import Toybox.Timer;
+import Toybox.Application;
 
 class PeakSleepView extends WatchUi.View {
 
@@ -270,7 +271,7 @@ class PeakSleepView extends WatchUi.View {
     }
 
     private function getBaseRechargeRate() as Float {
-        var rate = Storage.getValue(BASE_RECHARGE_RATE_KEY);
+        var rate = Toybox.Application.Properties.getValue("baseRechargeRate"); 
         if (rate instanceof Number) { // Check if it's a number (could be Float or Number)
             return rate.toFloat();
         }
