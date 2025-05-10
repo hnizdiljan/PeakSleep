@@ -2,10 +2,11 @@
 <!-- Basic manifest for the Peak Sleep widget -->
 <iq:manifest version="3" xmlns:iq="http://www.garmin.com/xml/connectiq">
     
-<iq:application id="40c6cc86-86aa-47c0-a43e-21e877c19f8a" type="widget" name="@Strings.AppName" launcherIcon="@Drawables.LauncherIcon" entry="PeakSleepApp" minApiLevel="3.1.0">
-   
- <!-- <iq:application id="7330a3fc-922b-405b-a047-72a0273d0a7d" type="widget" name="@Strings.AppName" launcherIcon="@Drawables.LauncherIcon" entry="PeakSleepApp" minApiLevel="3.1.0">
- --> 
+ <!-- <iq:application id="40c6cc86-86aa-47c0-a43e-21e877c19f8a" type="widget" name="@Strings.AppName" launcherIcon="@Drawables.LauncherIcon" entry="PeakSleepApp" minApiLevel="3.1.0">
+  --> 
+    
+ <iq:application id="7330a3fc-922b-405b-a047-72a0273d0a7d" type="widget" name="@Strings.AppName" launcherIcon="@Drawables.LauncherIcon" entry="PeakSleepApp" minApiLevel="3.1.0">
+
         <!-- Minimum API level for Body Battery -->
         <iq:products>
             <!-- Add specific compatible devices here, e.g.: -->
