@@ -21,4 +21,14 @@
     <string id="settingTitleRechargeRate">Recharge Rate</string>
     <string id="settingPromptRechargeRate">Avg BB points/hour</string>
 
+    <string id="settingTitleWakeUpHour">Wake-up Hour</string>
+    <string id="settingPromptWakeUpHour">Hour (0-23)</string>
+    <string id="settingTitleWakeUpMinute">Wake-up Minute</string>
+    <string id="settingPromptWakeUpMinute">Minute (0-59)</string>
+
+    <!-- Bedtime Advisor View -->
+    <string id="bedtimeTooLate">Too late for full recharge!</string>
+    <string id="bedtimeGoToSleepIn">Go to sleep in:</string>
+    <string id="bedtimeSleepNow">Sleep now for full recharge!</string>
+
 </strings> 

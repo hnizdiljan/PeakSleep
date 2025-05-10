@@ -7,6 +7,14 @@ const BASE_RECHARGE_RATE_KEY = "baseRechargeRate";
 // Define the default recharge rate if not set by user
 const DEFAULT_RECHARGE_RATE = 11.0f;
 
+// Define storage keys for wake-up time settings
+const WAKE_UP_HOUR_KEY = "wakeUpHour";
+const WAKE_UP_MINUTE_KEY = "wakeUpMinute";
+
+// Define default wake-up time if not set by user
+const DEFAULT_WAKE_UP_HOUR = 7;
+const DEFAULT_WAKE_UP_MINUTE = 0;
+
 class PeakSleepApp extends Application.AppBase {
 
     function initialize() {

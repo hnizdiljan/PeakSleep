@@ -1,0 +1,42 @@
+<layout id="BedtimeAdvisorLayout">
+    <!-- Configured Wake Up Time -->
+    <label id="wakeUpTimeSetLabel"
+        x="center" y="10%" 
+        font="Graphics.FONT_TINY"
+        justification="Graphics.TEXT_JUSTIFY_CENTER"
+        color="Graphics.COLOR_LT_GRAY" />
+
+    <!-- Required Sleep Duration -->
+    <label id="requiredSleepLabel"
+        x="center" y="25%"
+        font="Graphics.FONT_MEDIUM"
+        justification="Graphics.TEXT_JUSTIFY_CENTER"
+        color="Graphics.COLOR_WHITE" />
+
+    <!-- Ideal Bedtime -->
+    <label id="idealBedtimeLabel"
+        x="center" y="40%"
+        font="Graphics.FONT_LARGE"
+        justification="Graphics.TEXT_JUSTIFY_CENTER"
+        color="Graphics.COLOR_YELLOW" />
+
+    <!-- Prompt message for the main advice -->
+    <label id="promptMessageLabel"
+        x="center" y="62%" 
+        font="Graphics.FONT_TINY" 
+        justification="Graphics.TEXT_JUSTIFY_CENTER"
+        color="Graphics.COLOR_LT_GRAY" />
+
+    <!-- Main advice value (countdown, status) - čas -->
+    <label id="mainAdviceValueLabelTime"
+        x="center" y="72%"
+        font="Graphics.FONT_TINY"
+        justification="Graphics.TEXT_JUSTIFY_CENTER"
+        color="Graphics.COLOR_WHITE" />
+    <!-- Main advice value (too late) -->
+    <label id="mainAdviceValueLabelTooLate"
+        x="center" y="58%"
+        font="Graphics.FONT_TINY"
+        justification="Graphics.TEXT_JUSTIFY_CENTER"
+        color="Graphics.COLOR_WHITE" />
+</layout> 
