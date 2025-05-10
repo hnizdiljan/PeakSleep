@@ -9,17 +9,24 @@ class PeakSleepDelegate extends WatchUi.BehaviorDelegate {
 
     // Handle back button press to exit the widget
     function onBack() as Boolean {
+        // If we are on the main view (PeakSleepView), exit the app.
+        // If we are on a sub-view (like BedtimeAdvisorView), this onBack will be for that view.
+        // This specific onBack is for PeakSleepView, so exiting is correct.
         WatchUi.popView(WatchUi.SLIDE_RIGHT);
         return true;
     }
 
-    // Handle menu button press (could be used for on-device settings later)
+    // Handle menu button press to navigate to Bedtime Advisor View
     function onMenu() as Boolean {
-        // For now, do nothing or provide a simple message
-        // WatchUi.pushView(new Rez.Menus.MainMenu(), new PeakSleepMenuDelegate(), WatchUi.SLIDE_UP);
+        WatchUi.pushView(new BedtimeAdvisorView(), new BedtimeAdvisorDelegate(), WatchUi.SLIDE_UP);
         return true;
     } 
 
     // Add other input handling if needed (taps, swipes etc.)
+    // function onSelect() as Boolean {
+    //     // Example: Navigate on select/enter press
+    //     WatchUi.pushView(new BedtimeAdvisorView(), new BedtimeAdvisorDelegate(), WatchUi.SLIDE_UP);
+    //     return true;
+    // }
 
 } 

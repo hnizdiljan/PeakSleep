@@ -1,0 +1,36 @@
+<layout id="BedtimeAdvisorLayout">
+    <!-- Configured Wake Up Time -->
+    <label id="wakeUpTimeSetLabel"
+        x="center" y="10%" 
+        font="Graphics.FONT_XTINY"
+        justification="Graphics.TEXT_JUSTIFY_CENTER"
+        color="Graphics.COLOR_LT_GRAY" />
+
+    <!-- Required Sleep Duration -->
+    <label id="requiredSleepLabel"
+        x="center" y="25%"
+        font="Graphics.FONT_MEDIUM"
+        justification="Graphics.TEXT_JUSTIFY_CENTER"
+        color="Graphics.COLOR_WHITE" />
+
+    <!-- Ideal Bedtime -->
+    <label id="idealBedtimeLabel"
+        x="center" y="40%"
+        font="Graphics.FONT_LARGE"
+        justification="Graphics.TEXT_JUSTIFY_CENTER"
+        color="Graphics.COLOR_YELLOW" /> <!-- Or another prominent color -->
+
+    <!-- Time To Go To Bed Countdown / Message -->
+    <label id="timeToBedLabel"
+        x="center" y="60%"
+        font="Graphics.FONT_MEDIUM"
+        justification="Graphics.TEXT_JUSTIFY_CENTER"
+        color="Graphics.COLOR_WHITE" />
+
+    <!-- General Advice Message (Too late, Sleep now, etc.) -->
+    <label id="adviceLabel"
+        x="center" y="80%"
+        font="Graphics.FONT_SMALL"
+        justification="Graphics.TEXT_JUSTIFY_CENTER"
+        color="Graphics.COLOR_LT_GRAY" />
+</layout> 
