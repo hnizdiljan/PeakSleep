@@ -5,4 +5,18 @@
                      min="1"
                      max="30" />
     </setting>
+
+    <setting propertyKey="@Properties.wakeUpHour" title="@Strings.settingTitleWakeUpHour">
+        <settingConfig type="numeric"
+                     required="true"
+                     min="0"
+                     max="23" />
+    </setting>
+
+    <setting propertyKey="@Properties.wakeUpMinute" title="@Strings.settingTitleWakeUpMinute">
+        <settingConfig type="numeric"
+                     required="true"
+                     min="0"
+                     max="59" />
+    </setting>
 </settings>

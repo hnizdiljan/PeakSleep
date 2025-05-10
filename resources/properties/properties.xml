@@ -1,3 +1,5 @@
 <properties>
     <property id="baseRechargeRate" type="number">10</property>
+    <property id="wakeUpHour" type="number">7</property>
+    <property id="wakeUpMinute" type="number">0</property>
 </properties>
