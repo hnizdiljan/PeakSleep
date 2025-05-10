@@ -2,7 +2,7 @@
     <!-- Configured Wake Up Time -->
     <label id="wakeUpTimeSetLabel"
         x="center" y="10%" 
-        font="Graphics.FONT_XTINY"
+        font="Graphics.FONT_TINY"
         justification="Graphics.TEXT_JUSTIFY_CENTER"
         color="Graphics.COLOR_LT_GRAY" />
 
@@ -18,19 +18,25 @@
         x="center" y="40%"
         font="Graphics.FONT_LARGE"
         justification="Graphics.TEXT_JUSTIFY_CENTER"
-        color="Graphics.COLOR_YELLOW" /> <!-- Or another prominent color -->
+        color="Graphics.COLOR_YELLOW" />
 
-    <!-- Time To Go To Bed Countdown / Message -->
-    <label id="timeToBedLabel"
-        x="center" y="60%"
-        font="Graphics.FONT_MEDIUM"
-        justification="Graphics.TEXT_JUSTIFY_CENTER"
-        color="Graphics.COLOR_WHITE" />
-
-    <!-- General Advice Message (Too late, Sleep now, etc.) -->
-    <label id="adviceLabel"
-        x="center" y="80%"
-        font="Graphics.FONT_SMALL"
+    <!-- Prompt message for the main advice -->
+    <label id="promptMessageLabel"
+        x="center" y="62%" 
+        font="Graphics.FONT_TINY" 
         justification="Graphics.TEXT_JUSTIFY_CENTER"
         color="Graphics.COLOR_LT_GRAY" />
+
+    <!-- Main advice value (countdown, status) - čas -->
+    <label id="mainAdviceValueLabelTime"
+        x="center" y="72%"
+        font="Graphics.FONT_TINY"
+        justification="Graphics.TEXT_JUSTIFY_CENTER"
+        color="Graphics.COLOR_WHITE" />
+    <!-- Main advice value (too late) -->
+    <label id="mainAdviceValueLabelTooLate"
+        x="center" y="58%"
+        font="Graphics.FONT_TINY"
+        justification="Graphics.TEXT_JUSTIFY_CENTER"
+        color="Graphics.COLOR_WHITE" />
 </layout> 

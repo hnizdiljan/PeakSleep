@@ -1,0 +1,106 @@
+---
+description: Pro práci s GITem
+globs: 
+alwaysApply: false
+---
+**Cíl:** Tato pravidla definují standardizovaný postup pro práci s verzovacím systémem GIT v rámci projektu. Cílem je zajistit konzistentní, přehlednou, efektivní a sledovatelnou práci s kódem pro všechny členy týmu, včetně automatizovaných agentů.
+
+## 1. Větvení (Branching Model)
+
+Používáme model založený na Gitflow, přizpůsobený pro naše potřeby.
+
+* **`main` (nebo `master`) větev:**
+    * Obsahuje **pouze produkčně stabilní kód**. Tato větev musí být vždy připravena k nasazení.
+    * Přímé commity do `main` jsou **striktně zakázány**.
+    * Změny se do `main` integrují výhradně prostřednictvím Merge Requestů (MR) z `release` nebo `hotfix` větví.
+* **`develop` větev:**
+    * Hlavní integrační větev pro probíhající vývoj.
+    * Obsahuje nejnovější dokončené a otestované funkcionality (`feat` větve) a opravy chyb (`bugfix` větve).
+    * Měla by být co nejstabilnější, ale může obsahovat práci, která ještě neprošla finálním schválením pro produkci.
+    * Přímé commity do `develop` by měly být omezeny; preferuje se slučování z `feat` a `bugfix` větví přes MR.
+* **Feature větve (`feat/...`):**
+    * Vytvářejí se z `develop` pro každou novou funkcionalitu, úkol nebo experiment.
+    * Název větve musí být stručný, popisný a v angličtině, např. `feat/user-authentication`, `feat/improve-performance-reporting`.
+    * Agenti a vývojáři pracují primárně v těchto větvích.
+* **Bugfix větve (`bugfix/...`):**
+    * Vytvářejí se z `develop` pro opravy chyb, které nejsou kritické a týkají se aktuální vývojové verze.
+    * Název by měl popisovat opravovanou chybu, např. `bugfix/login-form-validation`.
+* **Hotfix větve (`hotfix/...`):**
+    * Vytvářejí se přímo z `main` větve pro urgentní opravy kritických chyb v produkční verzi.
+    * Název by měl reflektovat urgentní opravu, např. `hotfix/security-vulnerability-CVE-2025-1234`.
+    * Po dokončení a otestování se slučují zpět do `main` (a tagují) **a také** do `develop`, aby se oprava propsala do dalšího vývoje.
+* **Release větve (`release/...`):**
+    * Vytvářejí se z `develop`, když se plánuje nová produkční verze.
+    * Slouží pro finální testování, drobné opravy specifické pro daný release a přípravu metadat (např. aktualizace verzí).
+    * V těchto větvích se již nepřidávají nové velké funkcionality.
+    * Název by měl odpovídat připravované verzi, např. `release/v1.2.0`.
+    * Po dokončení a schválení se slučují do `main` (a tagují) a také zpět do `develop` (pro integraci drobných oprav provedených během přípravy release).
+
+## 2. Commity
+
+* **Atomické commity:** Každý commit musí reprezentovat jednu logickou změnu. Vyhněte se rozsáhlým commitům s mnoha nesouvisejícími úpravami. Agent by měl být schopen strukturovat svou práci do menších, logických commitů.
+* **Kvalitní commit zprávy:** Jsou klíčové pro srozumitelnost historie.
+    * **Jazyk:** Používejte angličtinu.
+    * **Nadpis (Subject):**
+        * Krátký (maximálně 50 znaků).
+        * Výstižný, v imperativu (přítomný čas, rozkazovací způsob – např. "Add user login", "Fix calculation error").
+        * Začíná velkým písmenem, nekončí tečkou.
+    * **Tělo (Body - volitelné):**
+        * Oddělené od nadpisu prázdným řádkem.
+        * Vysvětluje *co* bylo změněno a *proč*, nikoli *jak* (to je zřejmé z kódu).
+        * Může obsahovat reference na issues (např. "Closes #123", "Addresses #456").
+    * Příklad:
+        ```
+        Refactor authentication module
+
+        The previous authentication logic was complex and hard to maintain.
+        This commit simplifies the token generation process and improves error handling.
+
+        Addresses #789
+        ```
+* **Frekvence commitů:** Commitujte často. Umožňuje to snazší návrat k předchozím stavům, lepší přehled o postupu a jednodušší code review.
+
+## 3. Práce s Repozitářem
+
+* **Aktualizace lokální větve:** Před zahájením nové práce na větvi nebo před `push`ováním změn vždy aktualizujte svou lokální větev pomocí `git pull --rebase origin <nazev-vetve>`. Tím se udržuje lineární historie a minimalizují se konflikty při slučování.
+* **Pravidelný `push`:** Pushujte své lokální commity na vzdálený repozitář pravidelně (minimálně na konci pracovního dne nebo po dokončení smysluplné části úkolu). Tím se změny zálohují a zpřístupňují ostatním členům týmu.
+* **Řešení konfliktů (Merge Conflicts):** Konflikty řešte vždy lokálně ve své pracovní větvi před vytvořením Merge Requestu. Po vyřešení konfliktu důkladně otestujte, že aplikace funguje správně. Agent by měl být instruován, jak detekovat konflikty a případně eskalovat jejich řešení na lidského operátora, pokud je nedokáže bezpečně vyřešit.
+
+## 4. Merge Requests (Pull Requests)
+
+* **Vytváření MR/PR:** Pro každou `feat`, `bugfix`, `hotfix` nebo `release` větev, která má být integrována do cílové větve (`develop` nebo `main`), musí být vytvořen Merge Request.
+* **Popis MR/PR:** MR musí mít jasný název a podrobný popis, který vysvětluje účel změn, provedené úpravy a jak je otestovat. Případně odkazujte na relevantní tasky nebo issues.
+* **Code Review:** Veškerý kód musí projít code review od minimálně jednoho dalšího člena týmu před sloučením. Agent může poskytovat automatizované kontroly nebo informace reviewerům.
+* **Slučování (Merging):**
+    * Pro udržení čisté a srozumitelné historie v `develop` a `main` větvích preferujte "squash and merge" nebo "rebase and merge", v závislosti na projektové politice.
+    * **Mazání větví po sloučení:**
+        * Po úspěšném sloučení `feat` nebo `bugfix` větve do `develop` by měla být tato zdrojová větev smazána z remote repozitáře (většinou automatizovaná možnost v rámci platformy jako GitLab/GitHub).
+        * Po úspěšném sloučení `hotfix` nebo `release` větve do `main` (a následně do `develop`) by měla být tato `hotfix`/`release` větev smazána z remote repozitáře.
+
+## 5. Tagování (Tagging)
+
+* Pro každou produkční verzi nasazenou z `main` větve musí být vytvořen anotovaný tag.
+* Používejte sémantické verzování (Semantic Versioning – např. `v1.0.0`, `v1.0.1`, `v1.1.0`).
+* Příklad vytvoření tagu: `git tag -a v1.2.3 -m "Release version 1.2.3"` a následně `git push origin v1.2.3`.
+
+## 6. Speciální Soubory
+
+* **`.gitignore`:** Ujistěte se, že soubor `.gitignore` je správně a komplexně nakonfigurován, aby se do repozitáře nedostávaly nepotřebné soubory (např. logy, build artefakty, závislosti spravované manažery balíčků, soubory IDE, lokální konfigurace). Agent nesmí commitovat soubory definované v `.gitignore`.
+* **`.gitattributes`:** Může být použit pro definování atributů specifických pro cesty (např. normalizace konců řádků `* text=auto eol=lf`).
+
+## 7. Bezpečnost a Citlivá Data
+
+* **Nikdy necommitujte citlivá data** (jako jsou hesla, API klíče, privátní certifikáty, přístupové tokeny) přímo do repozitáře.
+* Pro správu citlivých údajů používejte výhradně dedikované nástroje (např. HashiCorp Vault, AWS Secrets Manager, Azure Key Vault) nebo šifrované konfigurační soubory, které jsou uvedeny v `.gitignore`. Agent musí být explicitně instruován, aby tato data neukládal do kódu ani do commitů.
+
+## 8. Nástroje a Automatizace
+
+* **CI/CD (Continuous Integration / Continuous Delivery):** Aktivně využívejte CI/CD pipelines pro automatické testování, buildování, kontrolu kvality kódu a případně nasazování.
+* **Pre-commit Hooks:** Zvažte použití pre-commit hooks (např. přes nástroje jako Husky nebo pre-commit) pro automatickou kontrolu kódu (linting, formátování, spouštění základních testů) před každým lokálním commitem.
+
+## 9. Pravidla Specifická pro Agenta
+
+* **Logování GIT operací:** Agent by měl detailně logovat všechny GIT operace, které provádí, pro účely auditu, sledování a ladění.
+* **Strategie pro řešení selhání GIT operací:** Musí být definováno, jak má agent reagovat na selhání GIT příkazů (např. kolikrát se pokusit operaci zopakovat, kdy a jak eskalovat problém na lidského operátora).
+
+* **Oprávnění:** Agent by měl mít v GIT repozitáři pouze minimální nezbytná oprávnění pro vykonávání svých úkolů.

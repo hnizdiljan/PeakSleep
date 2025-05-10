@@ -11,6 +11,8 @@ import Toybox.Time;
 import Toybox.Timer;
 import Toybox.Application;
 
+// SleepLogic module is expected to be in the same source directory
+
 class PeakSleepView extends WatchUi.View {
 
     // References to UI labels (will be initialized in onLayout)
@@ -77,31 +79,31 @@ class PeakSleepView extends WatchUi.View {
 
     // Update the view
     function onUpdate(dc as Dc) as Void {
+        // Call the parent onUpdate function to draw the layout
+        View.onUpdate(dc);
+
         // 1. Get Sensor Data (BB, HR, RHR)
-        var currentBB = getBodyBattery();
-        var avgHR = getAverageHeartRate();
-        var restingHR = getRestingHeartRate();
+        var currentBB = SleepLogic.getBodyBattery();
+        var avgHR = SleepLogic.getAverageHeartRate();
+        var restingHR = SleepLogic.getRestingHeartRate();
 
         // 2. Get Base Recharge Rate from settings or default
-        var baseRechargeRate = getBaseRechargeRate(); 
+        var baseRechargeRate = SleepLogic.getBaseRechargeRate(); 
 
         // 3. Calculate Adjusted Recharge Rate (Optional stress factor)
-        var adjustedRechargeRate = calculateAdjustedRechargeRate(baseRechargeRate, avgHR, restingHR);
+        var adjustedRechargeRate = SleepLogic.calculateAdjustedRechargeRate(baseRechargeRate, avgHR, restingHR);
 
         // 4. Calculate Needed BB
-        var bbNeeded = calculateBbNeeded(currentBB);
+        var bbNeeded = SleepLogic.calculateBbNeeded(currentBB);
 
         // 5. Calculate Sleep Time
-        var sleepTimeHours = calculateSleepTime(bbNeeded, adjustedRechargeRate);
+        var sleepTimeHours = SleepLogic.calculateSleepTime(bbNeeded, adjustedRechargeRate);
         
         // 6. Calculate Wake-up Time
         var wakeUpTime = calculateWakeUpTime(sleepTimeHours);
 
         // 7. Format and Update UI Labels
         updateUiLabels(dc, currentBB, avgHR, restingHR, adjustedRechargeRate, sleepTimeHours, bbNeeded, wakeUpTime);
-
-        // Call the parent onUpdate function to draw the layout
-        View.onUpdate(dc);
     }
 
     // Called when this View is removed from the screen. Save the
@@ -117,206 +119,6 @@ class PeakSleepView extends WatchUi.View {
 
     // --- Helper Functions --- 
 
-    private function getBodyBattery() as Number? {
-        System.println("PeakSleepView: getBodyBattery() called");
-        
-        // Try SensorHistory method first - this is the current API for most devices
-        if ((Toybox has :SensorHistory) && (Toybox.SensorHistory has :getBodyBatteryHistory)) {
-            System.println("PeakSleepView: Using SensorHistory.getBodyBatteryHistory");
-            var bbIter = Toybox.SensorHistory.getBodyBatteryHistory({:period => 1});
-            if (bbIter != null) {
-                var sample = bbIter.next();
-                if (sample != null && sample.data != null) {
-                    System.println("PeakSleepView: Returning BB from SensorHistory: " + sample.data);
-                    return sample.data;
-                } else {
-                    System.println("PeakSleepView: Sample or sample.data is null from SensorHistory");
-                }
-            } else {
-                System.println("PeakSleepView: bbIter is null from SensorHistory");
-            }
-        } else {
-            System.println("PeakSleepView: SensorHistory method not available");
-        }
-        
-        // Try UserProfile methods as fallback for older firmware versions
-        if ((UserProfile has :getBodyBatteryHistory)) {
-            System.println("PeakSleepView: Using UserProfile.getBodyBatteryHistory");
-            var bbIterator = UserProfile.getBodyBatteryHistory({:period=>1}); // Get latest value
-            System.println("PeakSleepView: bbIterator from getBodyBatteryHistory(): " + bbIterator);
-            if (bbIterator != null) {
-                 var sample = bbIterator.next();
-                 System.println("PeakSleepView: sample from bbIterator: " + sample);
-                 if (sample != null && sample.data != null) {
-                     System.println("PeakSleepView: Returning BB from history: " + sample.data);
-                     return sample.data;
-                 } else {
-                     System.println("PeakSleepView: Sample or sample.data is null from history");
-                 }
-            } else {
-                System.println("PeakSleepView: bbIterator is null");
-            }
-        } else {
-            System.println("PeakSleepView: UserProfile has no :getBodyBatteryHistory");
-        }
-        
-        // Last resort for older devices/API levels
-        if ((UserProfile has :getBodyBattery)) {
-             System.println("PeakSleepView: Using UserProfile.getBodyBattery");
-             var bbDirect = UserProfile.getBodyBattery();
-             System.println("PeakSleepView: bbDirect from getBodyBattery(): " + bbDirect);
-             if (bbDirect != null) {
-                 System.println("PeakSleepView: Returning BB direct: " + bbDirect);
-                 return bbDirect;
-             } else {
-                System.println("PeakSleepView: bbDirect is null");
-             }
-        } else {
-            System.println("PeakSleepView: UserProfile has no :getBodyBattery");
-        }
-        
-        System.println("PeakSleepView: getBodyBattery() returning null");
-        return null;
-    }
-
-    // New method to get average heart rate over the last 2 hours
-    private function getAverageHeartRate() as Number? {
-        System.println("PeakSleepView: getAverageHeartRate() called");
-        
-        // Enable HR sensor
-        if (Sensor has :setEnabledSensors) {
-            Sensor.setEnabledSensors([Sensor.SENSOR_HEARTRATE]);
-        }
-        
-        // Get average heart rate over last 2 hours
-        if ((Toybox has :SensorHistory) && (Toybox.SensorHistory has :getHeartRateHistory)) {
-            var twoHoursInSeconds = 2 * 60 * 60; // 2 hours in seconds
-            var hrIter = Toybox.SensorHistory.getHeartRateHistory({:period => twoHoursInSeconds});
-            
-            if (hrIter != null) {
-                var sum = 0;
-                var count = 0;
-                var sample;
-                
-                // Calculate average from samples
-                sample = hrIter.next();
-                while (sample != null) {
-                    if (sample.data != null && sample.data > 0) {
-                        sum += sample.data;
-                        count++;
-                    }
-                    sample = hrIter.next();
-                }
-                
-                // Return average if we have samples
-                if (count > 0) {
-                    System.println("PeakSleepView: Returning average HR from " + count + " samples: " + (sum / count));
-                    return (sum / count).toNumber();
-                }
-            }
-        }
-        
-        // Fallback to current HR if averaging fails
-        System.println("PeakSleepView: Falling back to current HR");
-        var sensorInfo = Sensor.getInfo();
-        if (sensorInfo != null && (sensorInfo has :currentHeartRate) && sensorInfo.currentHeartRate != null) {
-            return sensorInfo.currentHeartRate;
-        }
-        
-        return null;
-    }
-
-    // Updated to estimate RHR from heart rate history or use UserProfile
-    private function getRestingHeartRate() as Number? {
-        System.println("PeakSleepView: getRestingHeartRate() called");
-        
-        // Try to estimate RHR by finding minimum HR over past 24 hours
-        if ((Toybox has :SensorHistory) && (Toybox.SensorHistory has :getHeartRateHistory)) {
-            System.println("PeakSleepView: Trying to estimate RHR from heart rate history");
-            
-            // Set longer period for more accurate RHR assessment (24 hours)
-            var oneDayInSeconds = 24 * 60 * 60;
-            var hrIter = Toybox.SensorHistory.getHeartRateHistory({:period => oneDayInSeconds});
-            
-            if (hrIter != null) {
-                var minHR = null;
-                var sample;
-                
-                // Find minimum heart rate value
-                sample = hrIter.next();
-                while (sample != null) {
-                    if (sample.data != null && sample.data > 30) { // Filter out likely erroneous values below 30
-                        if (minHR == null || sample.data < minHR) {
-                            minHR = sample.data;
-                        }
-                    }
-                    sample = hrIter.next();
-                }
-                
-                if (minHR != null) {
-                    System.println("PeakSleepView: Estimated RHR from history minimum: " + minHR);
-                    return minHR;
-                }
-            }
-        }
-        
-        // Fallback to profile value
-        var profile = UserProfile.getProfile();
-        if (profile != null && profile.restingHeartRate != null) {
-            System.println("PeakSleepView: Returning RHR from profile: " + profile.restingHeartRate);
-            return profile.restingHeartRate;
-        }
-        
-        return null;
-    }
-
-    private function getBaseRechargeRate() as Float {
-        var rate = Toybox.Application.Properties.getValue("baseRechargeRate"); 
-        if (rate instanceof Number) { // Check if it's a number (could be Float or Number)
-            return rate.toFloat();
-        }
-         if (rate instanceof Float) {
-            return rate;
-        }
-        // Return default if not set or invalid type
-        return DEFAULT_RECHARGE_RATE;
-    }
-
-    private function calculateAdjustedRechargeRate(baseRate as Float, hr as Number?, rhr as Number?) as Float {
-        // Basic implementation without stress factor for now
-        // TODO: Implement optional stress adjustment later if desired
-         if (hr != null && rhr != null && hr > rhr + 5) { 
-            var stressFactor = hr - rhr - 5;
-            // Simple linear reduction: reduce rate by 1% per BPM over RHR+5 
-            // Ensure rate doesn't go below 50% of base 
-            var adjusted = baseRate * (1.0 - (stressFactor * 0.01));
-            var minRate = baseRate * 0.5;
-             return adjusted > minRate ? adjusted : minRate;
-        } 
-        return baseRate;
-    }
-
-    private function calculateBbNeeded(currentBB as Number?) as Number {
-        if (currentBB == null) {
-            return 100; // Assume worst case if data unavailable
-        }
-        if (currentBB >= 100) {
-            return 0;
-        }
-        return 100 - currentBB;
-    }
-
-    private function calculateSleepTime(bbNeeded as Number, rechargeRate as Float) as Float? {
-         if (rechargeRate <= 0) {
-             return null; // Cannot recharge
-         }
-         if (bbNeeded <= 0) {
-             return 0.0f;
-         }
-         return bbNeeded / rechargeRate;
-    }
-    
-    // New function to calculate wake-up time
     private function calculateWakeUpTime(sleepTimeHours as Float?) as String {
         if (sleepTimeHours == null || sleepTimeHours <= 0) {
             return "";
