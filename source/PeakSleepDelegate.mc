@@ -18,18 +18,53 @@ class PeakSleepDelegate extends WatchUi.BehaviorDelegate {
         return true;
     }
 
-    // Handle menu button press to navigate to Bedtime Advisor View
+    // Handle UP button press to navigate to Bedtime Advisor View
+    function onNextPage() as Boolean {
+        System.println("onNextPage called in PeakSleepDelegate - navigating to Bedtime Advisor");
+        WatchUi.pushView(new BedtimeAdvisorView(), new BedtimeAdvisorDelegate(), WatchUi.SLIDE_UP);
+        return true;
+    }
+
+    // Handle DOWN button press to navigate to Bedtime Advisor View (alternative)
+    function onPreviousPage() as Boolean {
+        System.println("onPreviousPage called in PeakSleepDelegate - navigating to Bedtime Advisor");
+        WatchUi.pushView(new BedtimeAdvisorView(), new BedtimeAdvisorDelegate(), WatchUi.SLIDE_UP);
+        return true;
+    }
+
+    // Handle swipe gestures for touchscreen devices
+    function onSwipe(swipeEvent as SwipeEvent) as Boolean {
+        var direction = swipeEvent.getDirection();
+        System.println("onSwipe called in PeakSleepDelegate - direction: " + direction);
+        
+        // Swipe UP or RIGHT to navigate forward to Bedtime Advisor
+        if (direction == WatchUi.SWIPE_UP || direction == WatchUi.SWIPE_RIGHT) {
+            System.println("Swipe UP/RIGHT detected - navigating to Bedtime Advisor");
+            WatchUi.pushView(new BedtimeAdvisorView(), new BedtimeAdvisorDelegate(), WatchUi.SLIDE_UP);
+            return true;
+        }
+        // Swipe LEFT to also navigate to Bedtime Advisor (alternative)
+        else if (direction == WatchUi.SWIPE_LEFT) {
+            System.println("Swipe LEFT detected - navigating to Bedtime Advisor");
+            WatchUi.pushView(new BedtimeAdvisorView(), new BedtimeAdvisorDelegate(), WatchUi.SLIDE_LEFT);
+            return true;
+        }
+        
+        return false; // Let other handlers process unrecognized swipes (like DOWN)
+    }
+
+    // Keep menu functionality as backup option
     function onMenu() as Boolean {
         System.println("onMenu called in PeakSleepDelegate");
         WatchUi.pushView(new BedtimeAdvisorView(), new BedtimeAdvisorDelegate(), WatchUi.SLIDE_UP);
         return true;
     } 
 
-    // Add other input handling if needed (taps, swipes etc.)
-    // function onSelect() as Boolean {
-    //     // Example: Navigate on select/enter press
-    //     WatchUi.pushView(new BedtimeAdvisorView(), new BedtimeAdvisorDelegate(), WatchUi.SLIDE_UP);
-    //     return true;
-    // }
+    // Optional: Add select button for navigation as well
+    function onSelect() as Boolean {
+        System.println("onSelect called in PeakSleepDelegate - navigating to Bedtime Advisor");
+        WatchUi.pushView(new BedtimeAdvisorView(), new BedtimeAdvisorDelegate(), WatchUi.SLIDE_UP);
+        return true;
+    }
 
 } 

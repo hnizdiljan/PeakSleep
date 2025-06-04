@@ -87,11 +87,8 @@ class PeakSleepView extends WatchUi.View {
         var avgHR = SleepLogic.getAverageHeartRate();
         var restingHR = SleepLogic.getRestingHeartRate();
 
-        // 2. Get Base Recharge Rate from settings or default
-        var baseRechargeRate = SleepLogic.getBaseRechargeRate(); 
-
-        // 3. Calculate Adjusted Recharge Rate (Optional stress factor)
-        var adjustedRechargeRate = SleepLogic.calculateAdjustedRechargeRate(baseRechargeRate, avgHR, restingHR);
+        // 2. Get Enhanced Recharge Rate (includes historical analysis)
+        var adjustedRechargeRate = SleepLogic.getEnhancedRechargeRate();
 
         // 4. Calculate Needed BB
         var bbNeeded = SleepLogic.calculateBbNeeded(currentBB);

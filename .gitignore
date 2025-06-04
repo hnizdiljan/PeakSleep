@@ -36,6 +36,8 @@ simulator/
 # Adresáře závislostí a výstupů
 build/
 out/
+cache/
+mir/
 
 # Zálohovací soubory editoru
 .idea/
