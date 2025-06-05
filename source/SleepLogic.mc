@@ -18,6 +18,14 @@ const MAX_SLEEP_DURATION_HOURS = 12;         // Maximální doba spánku pro ana
 const HISTORICAL_RECHARGE_RATE_KEY = "historicalRechargeRate";
 const SLEEP_PATTERNS_KEY = "sleepPatterns";
 
+// Konstanty pro hodinové vzorkování
+const MAX_HOURLY_SAMPLES = 200;              // Maximum vzorků (cca 8+ dní)
+const HOURLY_SAMPLING_BB_DIFF_MIN = 3;       // Minimální BB rozdíl pro začátek spánku
+const HOURLY_SAMPLING_BB_DIFF_END = 1;       // Maximální BB rozdíl pro konec spánku
+const NIGHT_TIME_START = 20;                 // Začátek nočního času (20:00)
+const NIGHT_TIME_END = 8;                    // Konec nočního času (08:00)
+const MIN_HOUR_DIFF = 0.8;                   // Minimální časový rozdíl mezi vzorky (hodiny)
+
 module SleepLogic {
 
     // Struktura pro uložení vzorce spánku
@@ -212,17 +220,17 @@ module SleepLogic {
     // =============== NOVÉ FUNKCE PRO HISTORICKOU ANALÝZU ===============
 
     function analyzeSleepPatterns() as Array<SleepPattern>? {
-        System.println("SleepLogic: Analyzing historical sleep patterns");
+        System.println("SleepLogic: Analyzing historical sleep patterns (hourly sampling)");
         
         if (!((Toybox has :SensorHistory) && (Toybox.SensorHistory has :getBodyBatteryHistory))) {
             System.println("SleepLogic: Body battery history not available");
             return null;
         }
 
-        // Získej data za posledních 7 dní
-        var weekInSeconds = SLEEP_ANALYSIS_DAYS * 24 * 60 * 60;
+        // Zpět na 7 dní, ale s hodinovým vzorkováním = max 168 vzorků
+        var analysisInSeconds = SLEEP_ANALYSIS_DAYS * 24 * 60 * 60; // 7 dní
         var bbIter = Toybox.SensorHistory.getBodyBatteryHistory({
-            :period => weekInSeconds, 
+            :period => analysisInSeconds, 
             :order => Toybox.SensorHistory.ORDER_OLDEST_FIRST
         });
 
@@ -232,69 +240,66 @@ module SleepLogic {
         }
 
         var sleepPatterns = [] as Array<SleepPattern>;
-        var samples = [] as Array<{:data as Number, :when as Time.Moment}>;
+        
+        // Hodinové vzorkování - načti data po hodinách
+        var hourlySamples = [] as Array<{:data as Number, :when as Time.Moment}>;
+        var lastHourProcessed = -1;
+        var sampleCount = 0;
 
-        // Načti všechny vzorky
         var sample = bbIter.next();
-        while (sample != null) {
+        while (sample != null && sampleCount < MAX_HOURLY_SAMPLES) {
             if (sample.data != null && sample.when != null) {
-                samples.add({:data => sample.data, :when => sample.when});
+                // Získej čas vzorku
+                var timeInfo = Time.Gregorian.info(sample.when, Time.FORMAT_SHORT);
+                var currentHour = (timeInfo.day * 24) + timeInfo.hour; // Unikátní identifikátor hodiny
+                
+                // Vezmi pouze jeden vzorek za hodinu (první dostupný)
+                if (currentHour != lastHourProcessed) {
+                    hourlySamples.add({:data => sample.data, :when => sample.when});
+                    lastHourProcessed = currentHour;
+                    sampleCount++;
+                }
             }
             sample = bbIter.next();
         }
 
-        System.println("SleepLogic: Found " + samples.size() + " Body Battery samples");
+        System.println("SleepLogic: Collected " + hourlySamples.size() + " hourly samples");
 
-        // Detekuj periody spánku
-        var sleepPeriods = detectSleepPeriods(samples);
-        
-        // Analyzuj každou periodu spánku
-        for (var i = 0; i < sleepPeriods.size(); i++) {
-            var period = sleepPeriods[i];
-            var pattern = analyzeSingleSleepPeriod(period);
-            if (pattern != null) {
-                sleepPatterns.add(pattern);
-            }
-        }
-
-        System.println("SleepLogic: Analyzed " + sleepPatterns.size() + " sleep patterns");
-        return sleepPatterns;
-    }
-
-    function detectSleepPeriods(samples as Array<{:data as Number, :when as Time.Moment}>) as Array<Array> {
-        var sleepPeriods = [] as Array<Array>;
+        // Nyní analyzuj hodinové vzorky pro spánkové období
         var currentPeriod = null as Array?;
         var prevBB = null as Number?;
         var prevTime = null as Time.Moment?;
 
-        for (var i = 0; i < samples.size(); i++) {
-            var sample = samples[i];
-            var bb = sample[:data];
-            var time = sample[:when];
+        for (var i = 0; i < hourlySamples.size(); i++) {
+            var hourlySample = hourlySamples[i];
+            var bb = hourlySample[:data];
+            var time = hourlySample[:when];
 
             if (prevBB != null && prevTime != null) {
                 var timeDiff = time.value() - prevTime.value();
                 var bbDiff = bb - prevBB;
                 var hoursDiff = timeDiff.toFloat() / 3600.0;
 
-                // Detekce začátku spánku: pokles BB po 21:00 nebo před 06:00
+                // Detekce začátku spánku - optimalizováno pro hodinové vzorky
                 var timeInfo = Time.Gregorian.info(time, Time.FORMAT_SHORT);
-                var isNightTime = timeInfo.hour >= 21 || timeInfo.hour <= 6;
+                var isNightTime = timeInfo.hour >= NIGHT_TIME_START || timeInfo.hour <= NIGHT_TIME_END;
                 
-                if (bbDiff > 5 && hoursDiff > 0.5 && isNightTime && currentPeriod == null) {
-                    // Začátek spánku - BB začíná stoupat
-                    currentPeriod = [samples[i-1], sample];
+                if (bbDiff > HOURLY_SAMPLING_BB_DIFF_MIN && hoursDiff >= MIN_HOUR_DIFF && isNightTime && currentPeriod == null) {
+                    // Začátek spánku
+                    currentPeriod = [{:data => prevBB, :when => prevTime}, {:data => bb, :when => time}];
                 } else if (currentPeriod != null) {
-                    // Pokračování spánku
-                    currentPeriod.add(sample);
+                    // Omezení velikosti periody
+                    if (currentPeriod.size() < MAX_SLEEP_DURATION_HOURS) {
+                        currentPeriod.add({:data => bb, :when => time});
+                    }
                     
-                    // Konec spánku - BB přestává výrazně stoupat nebo začíná klesat
-                    if (bbDiff < 2 && hoursDiff > 0.5) {
-                        var duration = (time.value() - currentPeriod[0][:when].value()).toFloat() / 3600.0;
-                        if (duration >= MIN_SLEEP_DURATION_HOURS && duration <= MAX_SLEEP_DURATION_HOURS) {
-                            sleepPeriods.add(currentPeriod);
+                    // Konec spánku - optimalizováno pro hodinové vzorky
+                    if (bbDiff < HOURLY_SAMPLING_BB_DIFF_END && hoursDiff >= MIN_HOUR_DIFF) {
+                        var pattern = analyzeSingleSleepPeriodOptimized(currentPeriod);
+                        if (pattern != null) {
+                            sleepPatterns.add(pattern);
                         }
-                        currentPeriod = null;
+                        currentPeriod = null; // Vyčištění paměti
                     }
                 }
             }
@@ -303,7 +308,16 @@ module SleepLogic {
             prevTime = time;
         }
 
-        return sleepPeriods;
+        // Zpracuj poslední období pokud nebylo dokončeno
+        if (currentPeriod != null && currentPeriod.size() >= 2) {
+            var pattern = analyzeSingleSleepPeriodOptimized(currentPeriod);
+            if (pattern != null) {
+                sleepPatterns.add(pattern);
+            }
+        }
+
+        System.println("SleepLogic: Analyzed " + sleepPatterns.size() + " sleep patterns from " + sampleCount + " hourly samples");
+        return sleepPatterns;
     }
 
     function analyzeSingleSleepPeriod(period as Array) as SleepPattern? {
@@ -311,8 +325,8 @@ module SleepLogic {
             return null;
         }
 
-        var startSample = period[0];
-        var endSample = period[period.size() - 1];
+        var startSample = period[0] as Dictionary;
+        var endSample = period[period.size() - 1] as Dictionary;
         
         var startBB = startSample[:data] as Number;
         var endBB = endSample[:data] as Number;
@@ -328,6 +342,43 @@ module SleepLogic {
 
         var rechargeRate = bbGain.toFloat() / duration;
         var avgStress = calculateAverageStressDuringSleep(startTime, endTime);
+
+        return {
+            :startBB => startBB,
+            :endBB => endBB,
+            :duration => duration,
+            :rechargeRate => rechargeRate,
+            :avgStress => avgStress,
+            :timestamp => startTime.value()
+        } as SleepPattern;
+    }
+
+    // Optimalizovaná verze pro snížení paměťové náročnosti
+    function analyzeSingleSleepPeriodOptimized(period as Array) as SleepPattern? {
+        if (period.size() < 2) {
+            return null;
+        }
+
+        var startSample = period[0] as Dictionary;
+        var endSample = period[period.size() - 1] as Dictionary;
+        
+        var startBB = startSample[:data] as Number;
+        var endBB = endSample[:data] as Number;
+        var startTime = startSample[:when] as Time.Moment;
+        var endTime = endSample[:when] as Time.Moment;
+
+        var duration = (endTime.value() - startTime.value()).toFloat() / 3600.0;
+        var bbGain = endBB - startBB;
+
+        // Validace pro rozumné hodnoty
+        if (bbGain <= 0 || duration <= 0 || duration < MIN_SLEEP_DURATION_HOURS || duration > MAX_SLEEP_DURATION_HOURS) {
+            return null; // Neplatný spánek
+        }
+
+        var rechargeRate = bbGain.toFloat() / duration;
+        
+        // Zjednodušený výpočet stresu - bez dodatečných API volání
+        var avgStress = 25.0f; // Průměrná hodnota místo skutečného výpočtu
 
         return {
             :startBB => startBB,
@@ -414,25 +465,48 @@ module SleepLogic {
     }
 
     function getEnhancedRechargeRate() as Float {
-        System.println("SleepLogic: Getting enhanced recharge rate");
+        System.println("SleepLogic: Getting enhanced recharge rate (optimized)");
         
         // 1. Zkus získat cached historickou rychlost
         var historicalRate = Application.Storage.getValue(HISTORICAL_RECHARGE_RATE_KEY) as Float?;
         var shouldRecalculate = false;
         
-        // Přepočítej historickou rychlost jednou denně
+        // Přepočítej historickou rychlost méně často - každé 2 dny místo denně
         var lastUpdate = Application.Storage.getValue("lastHistoricalUpdate") as Number?;
         var now = Time.now().value();
-        if (lastUpdate == null || (now - lastUpdate) > (24 * 60 * 60)) {
+        if (lastUpdate == null || (now - lastUpdate) > (2 * 24 * 60 * 60)) {
             shouldRecalculate = true;
         }
 
-        // 2. Pokud je potřeba, analyzuj historická data
+        // 2. Pokud je potřeba, analyzuj historická data (s emergency fallback)
         if (historicalRate == null || shouldRecalculate) {
             System.println("SleepLogic: Recalculating historical recharge rate");
-            var patterns = analyzeSleepPatterns();
-            historicalRate = calculateHistoricalRechargeRate(patterns);
-            Application.Storage.setValue("lastHistoricalUpdate", now);
+            
+            // Emergency: zkus základní rychlost pokud není cache
+            if (historicalRate == null) {
+                System.println("SleepLogic: Emergency mode - using base rate without historical analysis");
+                var baseRate = getBaseRechargeRate();
+                var currentHR = getAverageHeartRate();
+                var restingHR = getRestingHeartRate();
+                return calculateAdjustedRechargeRate(baseRate, currentHR, restingHR);
+            }
+            
+            try {
+                // Pouze pokud máme cached hodnotu, pokus o aktualizaci
+                var patterns = analyzeSleepPatterns();
+                var newHistoricalRate = calculateHistoricalRechargeRate(patterns);
+                if (newHistoricalRate != null) {
+                    historicalRate = newHistoricalRate;
+                    Application.Storage.setValue("lastHistoricalUpdate", now);
+                }
+            } catch (ex) {
+                System.println("SleepLogic: Error analyzing patterns: " + ex.getErrorMessage());
+                System.println("SleepLogic: Continuing with cached or base rate");
+                // Použij cached hodnotu pokud existuje, jinak fallback
+                if (historicalRate == null) {
+                    historicalRate = 8.0f; // Rozumná fallback hodnota
+                }
+            }
         }
 
         // 3. Získej základní rychlost z nastavení

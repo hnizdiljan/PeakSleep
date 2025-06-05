@@ -32,75 +32,143 @@ class PeakSleepView extends WatchUi.View {
 
 
     function initialize() {
+        System.println("🎨 PeakSleepView: Initializing view...");
         View.initialize();
-        _naText = WatchUi.loadResource(Rez.Strings.valueNotAvailable) as String;
-        _fullText = WatchUi.loadResource(Rez.Strings.valueFull) as String;
-        _cannotRechargeText = WatchUi.loadResource(Rez.Strings.valueChargeNotPossible) as String;
-        _lastSleepValue = null;
-        _updateTimer = null;
+        
+        try {
+            _naText = WatchUi.loadResource(Rez.Strings.valueNotAvailable) as String;
+            _fullText = WatchUi.loadResource(Rez.Strings.valueFull) as String;
+            _cannotRechargeText = WatchUi.loadResource(Rez.Strings.valueChargeNotPossible) as String;
+            _lastSleepValue = null;
+            _updateTimer = null;
+            System.println("✅ PeakSleepView: View initialized successfully");
+        } catch (ex) {
+            System.println("❌ PeakSleepView: Error loading resources: " + ex.getErrorMessage());
+            // Fallback hodnoty
+            _naText = "N/A";
+            _fullText = "Full";
+            _cannotRechargeText = "Error";
+            _lastSleepValue = null;
+            _updateTimer = null;
+        }
     }
 
     // Load your resources here
     function onLayout(dc as Dc) as Void {
-        setLayout(Rez.Layouts.MainLayout(dc));
+        System.println("📐 PeakSleepView: Setting up layout...");
+        try {
+            setLayout(Rez.Layouts.MainLayout(dc));
+            System.println("✅ PeakSleepView: Layout set successfully");
 
-        // Get references to the labels defined in the layout
-        _bodyBatteryValueLabel = findDrawableById("bodyBatteryValue") as Text;
-        _heartRateValueLabel = findDrawableById("heartRateValue") as Text;
-        _estSleepValueLabel = findDrawableById("estSleepValue") as Text;
-        _rhrValueLabel = findDrawableById("rhrValue") as Text;
-        _rechargeRateValueLabel = findDrawableById("rechargeRateValue") as Text;
-        _wakeUpTimeLabel = findDrawableById("wakeUpTime") as Text;
+            // Get references to the labels defined in the layout
+            _bodyBatteryValueLabel = findDrawableById("bodyBatteryValue") as Text;
+            _heartRateValueLabel = findDrawableById("heartRateValue") as Text;
+            _estSleepValueLabel = findDrawableById("estSleepValue") as Text;
+            _rhrValueLabel = findDrawableById("rhrValue") as Text;
+            _rechargeRateValueLabel = findDrawableById("rechargeRateValue") as Text;
+            _wakeUpTimeLabel = findDrawableById("wakeUpTime") as Text;
+            
+            System.println("✅ PeakSleepView: All UI elements found and linked");
+        } catch (ex) {
+            System.println("❌ PeakSleepView: Error in onLayout: " + ex.getErrorMessage());
+            throw ex;
+        }
     }
 
     // Called when this View is brought to the foreground. Restore
     // the state of this View and prepare it to be shown. This includes
     // loading resources into memory.
     function onShow() as Void {
+        System.println("👁️ PeakSleepView: View is being shown...");
+        
         // Enable heart rate sensor to make sure we can get current values
         if (Sensor has :setEnabledSensors) {
-            System.println("PeakSleepView: Enabling heart rate sensor");
+            System.println("❤️ PeakSleepView: Enabling heart rate sensor");
             Sensor.setEnabledSensors([Sensor.SENSOR_HEARTRATE]);
         } else {
-            System.println("PeakSleepView: Cannot enable sensors, method not available");
+            System.println("⚠️ PeakSleepView: Cannot enable sensors, method not available");
         }
         
-        // Set up timer for periodic updates
+        // Set up timer for periodic updates - méně časté kvůli paměti
         if (_updateTimer == null) {
+            System.println("⏰ PeakSleepView: Setting up update timer (15s interval)");
             _updateTimer = new Timer.Timer();
-            _updateTimer.start(method(:onTimerTick), 5000, true);
+            _updateTimer.start(method(:onTimerTick), 15000, true); // 15 sekund místo 5
+            System.println("✅ PeakSleepView: Timer started successfully");
+        } else {
+            System.println("⏰ PeakSleepView: Timer already running");
         }
+        
+        System.println("✅ PeakSleepView: onShow completed");
     }
     
     // Timer callback for periodic updates
     function onTimerTick() as Void {
+        System.println("⏰ PeakSleepView: Timer tick - requesting UI update");
         WatchUi.requestUpdate();
     }
 
+    // Cache pro snížení počtu náročných volání
+    private var _lastRechargeRateUpdate = 0;
+    private var _cachedRechargeRate = 8.0f;
+
     // Update the view
     function onUpdate(dc as Dc) as Void {
-        // Call the parent onUpdate function to draw the layout
-        View.onUpdate(dc);
-
-        // 1. Get Sensor Data (BB, HR, RHR)
-        var currentBB = SleepLogic.getBodyBattery();
-        var avgHR = SleepLogic.getAverageHeartRate();
-        var restingHR = SleepLogic.getRestingHeartRate();
-
-        // 2. Get Enhanced Recharge Rate (includes historical analysis)
-        var adjustedRechargeRate = SleepLogic.getEnhancedRechargeRate();
-
-        // 4. Calculate Needed BB
-        var bbNeeded = SleepLogic.calculateBbNeeded(currentBB);
-
-        // 5. Calculate Sleep Time
-        var sleepTimeHours = SleepLogic.calculateSleepTime(bbNeeded, adjustedRechargeRate);
+        System.println("🎨 PeakSleepView: onUpdate started");
         
-        // 6. Calculate Wake-up Time
-        var wakeUpTime = calculateWakeUpTime(sleepTimeHours);
+        try {
+            // Call the parent onUpdate function to draw the layout
+            View.onUpdate(dc);
+            System.println("✅ PeakSleepView: Parent onUpdate completed");
 
-        // 7. Format and Update UI Labels
-        updateUiLabels(dc, currentBB, avgHR, restingHR, adjustedRechargeRate, sleepTimeHours, bbNeeded, wakeUpTime);
+            // 1. Get Sensor Data (BB, HR, RHR)
+            System.println("📊 PeakSleepView: Getting sensor data...");
+            var currentBB = SleepLogic.getBodyBattery();
+            System.println("🔋 PeakSleepView: Body Battery: " + (currentBB != null ? currentBB.toString() : "null"));
+            
+            var avgHR = SleepLogic.getAverageHeartRate();
+            System.println("❤️ PeakSleepView: Avg HR: " + (avgHR != null ? avgHR.toString() : "null"));
+            
+            var restingHR = SleepLogic.getRestingHeartRate();
+            System.println("😴 PeakSleepView: Resting HR: " + (restingHR != null ? restingHR.toString() : "null"));
+
+            // 2. Get Enhanced Recharge Rate (cached pro snížení memory usage)
+            var now = Time.now().value();
+            var adjustedRechargeRate = _cachedRechargeRate;
+            
+            // Aktualizuj recharge rate pouze každých 60 sekund
+            if ((now - _lastRechargeRateUpdate) > 60) {
+                try {
+                    adjustedRechargeRate = SleepLogic.getEnhancedRechargeRate();
+                    _cachedRechargeRate = adjustedRechargeRate;
+                    _lastRechargeRateUpdate = now;
+                    System.println("⚡ PeakSleepView: Recharge rate updated: " + adjustedRechargeRate.format("%.2f"));
+                } catch (ex) {
+                    System.println("⚠️ PeakSleepView: Error getting recharge rate, using cached value");
+                    adjustedRechargeRate = _cachedRechargeRate;
+                }
+            }
+
+            // 4. Calculate Needed BB
+            var bbNeeded = SleepLogic.calculateBbNeeded(currentBB);
+            System.println("🎯 PeakSleepView: BB needed: " + bbNeeded);
+
+            // 5. Calculate Sleep Time
+            var sleepTimeHours = SleepLogic.calculateSleepTime(bbNeeded, adjustedRechargeRate);
+            System.println("⏰ PeakSleepView: Sleep time: " + (sleepTimeHours != null ? sleepTimeHours.format("%.2f") + "h" : "null"));
+            
+            // 6. Calculate Wake-up Time
+            var wakeUpTime = calculateWakeUpTime(sleepTimeHours);
+            System.println("🌅 PeakSleepView: Wake up time: " + wakeUpTime);
+
+            // 7. Format and Update UI Labels
+            updateUiLabels(dc, currentBB, avgHR, restingHR, adjustedRechargeRate, sleepTimeHours, bbNeeded, wakeUpTime);
+            System.println("✅ PeakSleepView: onUpdate completed successfully");
+        } catch (ex) {
+            System.println("❌ PeakSleepView: Error in onUpdate: " + ex.getErrorMessage());
+            // Fallback - zobraz alespoň základní layout
+            View.onUpdate(dc);
+        }
     }
 
     // Called when this View is removed from the screen. Save the

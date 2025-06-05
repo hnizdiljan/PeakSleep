@@ -24,7 +24,6 @@ class BedtimeAdvisorView extends WatchUi.View {
     // String resources
     private var _fullText as String;
     private var _cannotRechargeText as String;
-    private var _tooLateText as String;
     private var _goToSleepInText as String;
     private var _sleepNowText as String;
 
@@ -32,7 +31,6 @@ class BedtimeAdvisorView extends WatchUi.View {
         View.initialize();
         _fullText = WatchUi.loadResource(Rez.Strings.valueFull) as String;
         _cannotRechargeText = WatchUi.loadResource(Rez.Strings.valueChargeNotPossible) as String;
-        _tooLateText = WatchUi.loadResource(Rez.Strings.bedtimeTooLate) as String;
         _goToSleepInText = WatchUi.loadResource(Rez.Strings.bedtimeGoToSleepIn) as String;
         _sleepNowText = WatchUi.loadResource(Rez.Strings.bedtimeSleepNow) as String;
     }
@@ -94,7 +92,6 @@ class BedtimeAdvisorView extends WatchUi.View {
             idealBedtimeMoment = wakeUpToday.subtract(sleepDuration);
 
             if (now.lessThan(idealBedtimeMoment)) {
-                var timeToBedDurationValue = new Time.Duration(idealBedtimeMoment.value() - now.value());
                 promptMsg = _goToSleepInText;
             } else {
                 var potentialWakeUp = now.add(sleepDuration);

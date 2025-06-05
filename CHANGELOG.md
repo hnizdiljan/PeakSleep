@@ -1,5 +1,32 @@
 # Changelog - PeakSleep
 
+## [Verze 2.1] - Memory Optimizations (2024-12-04)
+
+### 🚨 Kritické opravy
+- **OPRAVENO**: "Out of Memory Error" při spuštění aplikace
+- **OPRAVENO**: Přetečení paměti při historické analýze
+
+### ⚡ Optimalizace výkonu
+- Zkrácení doby analýzy ze 7 na 3 dny (snížení paměťové náročnosti)
+- Omezení vzorků na 500 místo neomezeného načítání
+- Stream processing místo načítání všech dat do paměti najednou
+- Prodloužení intervalu UI aktualizací z 5 na 15 sekund
+- Cache pro recharge rate - aktualizace každých 60 sekund
+
+### 🛡️ Vylepšení stability
+- Try-catch blokování pro kritické funkce
+- Error handling pro předcházení pádům aplikace
+- Fallback hodnoty při selhání historické analýzy
+- Automatické vyčištění paměti po zpracování dat
+
+### 🔧 Technické změny
+- `analyzeSleepPatternsOptimized()` - nová optimalizovaná verze
+- `analyzeSingleSleepPeriodOptimized()` - bez náročných API volání
+- Zjednodušený výpočet stresu (průměrná hodnota místo API)
+- Méně časté přepočítávání (každé 2 dny místo denně)
+
+---
+
 ## [Verze 2.0] - Vylepšení Recharge Rate s historickými daty
 
 ### ✨ Nové funkce

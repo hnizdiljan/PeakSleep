@@ -41,6 +41,7 @@ mir/
 internal-mir/
 external-mir/
 gen/
+*.mir
 
 # Zálohovací soubory editoru
 .idea/
@@ -63,3 +64,5 @@ Desktop.ini
 
 # Log soubory
 *.log
+gen/006-B4533-00/source/Rez.mcgen
+internal-mir/Rez.mir

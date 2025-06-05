@@ -5,7 +5,9 @@ import Toybox.System;
 class PeakSleepDelegate extends WatchUi.BehaviorDelegate {
 
     function initialize() {
+        System.println("🎮 PeakSleepDelegate: Initializing delegate...");
         BehaviorDelegate.initialize();
+        System.println("✅ PeakSleepDelegate: Delegate initialized successfully");
     }
 
     // Handle back button press to exit the widget
@@ -37,20 +39,32 @@ class PeakSleepDelegate extends WatchUi.BehaviorDelegate {
         var direction = swipeEvent.getDirection();
         System.println("onSwipe called in PeakSleepDelegate - direction: " + direction);
         
-        // Swipe UP or RIGHT to navigate forward to Bedtime Advisor
-        if (direction == WatchUi.SWIPE_UP || direction == WatchUi.SWIPE_RIGHT) {
-            System.println("Swipe UP/RIGHT detected - navigating to Bedtime Advisor");
+        // Swipe UP to navigate to Bedtime Advisor
+        if (direction == WatchUi.SWIPE_UP) {
+            System.println("Swipe UP detected - navigating to Bedtime Advisor");
             WatchUi.pushView(new BedtimeAdvisorView(), new BedtimeAdvisorDelegate(), WatchUi.SLIDE_UP);
             return true;
         }
-        // Swipe LEFT to also navigate to Bedtime Advisor (alternative)
-        else if (direction == WatchUi.SWIPE_LEFT) {
-            System.println("Swipe LEFT detected - navigating to Bedtime Advisor");
+        // Swipe DOWN to navigate to Historical Stats
+        else if (direction == WatchUi.SWIPE_DOWN) {
+            System.println("Swipe DOWN detected - navigating to Historical Stats");
+            WatchUi.pushView(new HistoricalStatsView(), new HistoricalStatsDelegate(), WatchUi.SLIDE_DOWN);
+            return true;
+        }
+        // Swipe RIGHT to navigate to Bedtime Advisor (alternative)
+        else if (direction == WatchUi.SWIPE_RIGHT) {
+            System.println("Swipe RIGHT detected - navigating to Bedtime Advisor");
             WatchUi.pushView(new BedtimeAdvisorView(), new BedtimeAdvisorDelegate(), WatchUi.SLIDE_LEFT);
             return true;
         }
+        // Swipe LEFT to navigate to Historical Stats (alternative)
+        else if (direction == WatchUi.SWIPE_LEFT) {
+            System.println("Swipe LEFT detected - navigating to Historical Stats");
+            WatchUi.pushView(new HistoricalStatsView(), new HistoricalStatsDelegate(), WatchUi.SLIDE_RIGHT);
+            return true;
+        }
         
-        return false; // Let other handlers process unrecognized swipes (like DOWN)
+        return false; // Let other handlers process unrecognized swipes
     }
 
     // Keep menu functionality as backup option
