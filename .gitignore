@@ -38,6 +38,9 @@ build/
 out/
 cache/
 mir/
+internal-mir/
+external-mir/
+gen/
 
 # Zálohovací soubory editoru
 .idea/
