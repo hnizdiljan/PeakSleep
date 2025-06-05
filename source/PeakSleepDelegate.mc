@@ -20,17 +20,17 @@ class PeakSleepDelegate extends WatchUi.BehaviorDelegate {
         return true;
     }
 
-    // Handle UP button press to navigate to Bedtime Advisor View
+    // Handle UP button press to navigate through views in order
     function onNextPage() as Boolean {
         System.println("onNextPage called in PeakSleepDelegate - navigating to Bedtime Advisor");
         WatchUi.pushView(new BedtimeAdvisorView(), new BedtimeAdvisorDelegate(), WatchUi.SLIDE_UP);
         return true;
     }
 
-    // Handle DOWN button press to navigate to Bedtime Advisor View (alternative)
+    // Handle DOWN button press to navigate to Bedtime Advisor
     function onPreviousPage() as Boolean {
         System.println("onPreviousPage called in PeakSleepDelegate - navigating to Bedtime Advisor");
-        WatchUi.pushView(new BedtimeAdvisorView(), new BedtimeAdvisorDelegate(), WatchUi.SLIDE_UP);
+        WatchUi.pushView(new BedtimeAdvisorView(), new BedtimeAdvisorDelegate(), WatchUi.SLIDE_DOWN);
         return true;
     }
 
@@ -45,22 +45,22 @@ class PeakSleepDelegate extends WatchUi.BehaviorDelegate {
             WatchUi.pushView(new BedtimeAdvisorView(), new BedtimeAdvisorDelegate(), WatchUi.SLIDE_UP);
             return true;
         }
-        // Swipe DOWN to navigate to Historical Stats
+        // Swipe DOWN to navigate to Bedtime Advisor
         else if (direction == WatchUi.SWIPE_DOWN) {
-            System.println("Swipe DOWN detected - navigating to Historical Stats");
-            WatchUi.pushView(new HistoricalStatsView(), new HistoricalStatsDelegate(), WatchUi.SLIDE_DOWN);
+            System.println("Swipe DOWN detected - navigating to Bedtime Advisor");
+            WatchUi.pushView(new BedtimeAdvisorView(), new BedtimeAdvisorDelegate(), WatchUi.SLIDE_DOWN);
             return true;
         }
-        // Swipe RIGHT to navigate to Bedtime Advisor (alternative)
+        // Swipe RIGHT to navigate to Bedtime Advisor
         else if (direction == WatchUi.SWIPE_RIGHT) {
             System.println("Swipe RIGHT detected - navigating to Bedtime Advisor");
             WatchUi.pushView(new BedtimeAdvisorView(), new BedtimeAdvisorDelegate(), WatchUi.SLIDE_LEFT);
             return true;
         }
-        // Swipe LEFT to navigate to Historical Stats (alternative)
+        // Swipe LEFT to navigate to Bedtime Advisor (alternative)
         else if (direction == WatchUi.SWIPE_LEFT) {
-            System.println("Swipe LEFT detected - navigating to Historical Stats");
-            WatchUi.pushView(new HistoricalStatsView(), new HistoricalStatsDelegate(), WatchUi.SLIDE_RIGHT);
+            System.println("Swipe LEFT detected - navigating to Bedtime Advisor");
+            WatchUi.pushView(new BedtimeAdvisorView(), new BedtimeAdvisorDelegate(), WatchUi.SLIDE_RIGHT);
             return true;
         }
         

@@ -15,7 +15,7 @@ class BedtimeAdvisorDelegate extends WatchUi.BehaviorDelegate {
 
     // Handle UP button press to go back to main view
     function onNextPage() as Boolean {
-        WatchUi.popView(WatchUi.SLIDE_DOWN);
+        WatchUi.popView(WatchUi.SLIDE_UP);
         return true;
     }
 
@@ -42,8 +42,14 @@ class BedtimeAdvisorDelegate extends WatchUi.BehaviorDelegate {
             WatchUi.popView(WatchUi.SLIDE_RIGHT);
             return true;
         }
+        // Swipe UP to go back to main view
+        else if (direction == WatchUi.SWIPE_UP) {
+            System.println("Swipe UP detected - returning to main view");
+            WatchUi.popView(WatchUi.SLIDE_UP);
+            return true;
+        }
         
-        return false; // Let other handlers process unrecognized swipes (like UP)
+        return false; // Let other handlers process unrecognized swipes
     }
 
     // Handle select button press to go back to main view

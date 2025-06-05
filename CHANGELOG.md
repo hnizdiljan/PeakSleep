@@ -1,5 +1,103 @@
 # Changelog - PeakSleep
 
+## [Verze 2.3] - Zjednodušení aplikace (2024-12-15)
+
+### 🗑️ Odstraněno
+- **Daily Stats obrazovka** - kvůli známému Garmin SDK bug
+  - Funkce `getBodyBatteryHistory()` způsobuje Out of Memory chyby na Fenix 6S Pro a dalších zařízeních
+  - Zdroj: https://forums.garmin.com/developer/connect-iq/i/bug-reports/out-of-memory-when-calling-getbodybatteryhistory-2014086388
+  - Odstraněny soubory: `DailyStatsView.mc`, `DailyStatsDelegate.mc`, dokumentace
+
+- **Historical Stats obrazovka** - kvůli zjednodušení aplikace
+  - Odstraněny soubory: `HistoricalStatsView.mc`, `HistoricalStatsDelegate.mc`
+  - Odstraněna dokumentace: `Vylepšení_Recharge_Rate.md`
+  - Odstraněny všechny Enhanced Recharge Rate funkce ze `SleepLogic.mc`
+
+### 🔧 Změny navigace
+- Vrácena navigace na 2 základní obrazovky:
+  - **Hlavní obrazovka** ↔ **Bedtime Advisor**
+  - Swipe UP z hlavní obrazovky → Bedtime Advisor
+  - Swipe DOWN z hlavní obrazovky → Bedtime Advisor
+  - Všechny swipe gesta z Bedtime Advisor → návrat na hlavní obrazovku
+
+### 🛡️ Vylepšení stability
+- Aplikace používá pouze základní recharge rate z nastavení
+- Odstranění všech problematických Garmin API funkcí
+- Jednoduchá a stabilní implementace bez složitých algoritmů
+- Vrácení k původní logice z verze 1.0
+
+---
+
+## [Verze 2.2] - Daily Sleep Statistics (2024-12-04) - ODSTRANĚNO v 2.3
+
+### 🆕 Hlavní novinky
+
+#### Třetí obrazovka - Denní Statistiky
+- **Nový view** pro detailní přehled posledních 7 dnů
+- **Pokročilá detekce spánku** místo simple min/max algoritmu
+- **Personalizované hodnocení kvality** spánku (Výborná/Dobrá/Slabá)
+- **Scrollovatelný seznam** s intuitivní navigací
+
+#### Vylepšený algoritmus detekce spánku
+- **Detekce aktivity před spánkem** - pokles BB ≥5 bodů v nočních hodinách
+- **Identifikace regeneračního období** - nárůst BB ≥8 bodů v ranních hodinách
+- **Fallback mechanismus** na tradiční min/max při selhání
+- **Časová omezení** pro rozumné výsledky (3-12h spánku)
+
+#### Nové zobrazené informace
+- **Datum spánku** - "Dnes", "Včera" nebo "15.1"
+- **Čas usnutí/probuzení** - "23:30 - 07:15"
+- **Doba spánku** - "7.8h"
+- **Rychlost regenerace** - "9.2 BB/h"
+- **Body Battery rozsah** - "45 → 78 BB"
+- **Kvalita spánku** - barevně rozlišená
+
+### 📱 Navigace
+- **Swipe RIGHT** z hlavní obrazovky → Denní Statistiky
+- **Swipe UP/DOWN** → Scrollování v seznamu denních statistik
+- **Select** → Refresh dat
+- **Back/Menu** → Návrat na hlavní obrazovku
+
+### 🔧 Technické změny
+
+#### Nové soubory
+- `source/DailyStatsView.mc` - UI komponenta pro denní statistiky
+- `source/DailyStatsDelegate.mc` - Controller pro navigaci a scrollování
+- `Denní_Statistiky_Regenerace.md` - podrobná dokumentace
+
+#### SleepLogic.mc rozšíření
+- `DailyStat` typedef pro strukturu denních dat
+- `collectDailyStats()` - sběr a analýza půlhodinových vzorků
+- `detectSleepPeriodAdvanced()` - pokročilá detekce spánkových období
+- `serializeDailyStatsToCache()` - optimalizace storage
+- Cache systém s 6hodinovým refresh intervalem
+
+#### PeakSleepDelegate.mc
+- Nová navigace **Swipe RIGHT** → Daily Stats
+- Reorganizace swipe směrů pro lepší UX
+
+### ⚡ Optimalizace
+- **Půlhodinové vzorkování** místo minutového (menší paměťová náročnost)
+- **Serializace cache** pro kompatibilitu s Application.Storage
+- **Lazy loading** dat při prvním zobrazení
+- **Smart refresh** - data se aktualizují pouze každých 6 hodin
+
+### 🎯 Kvalita spánku
+
+#### 🟢 Výborná (≥10 BB/h, ≥7h)
+- Optimální regenerace
+- Zelená barva
+
+#### 🟡 Dobrá (≥7 BB/h, ≥6h)
+- Uspokojivá regenerace
+- Žlutá barva
+
+#### 🔴 Slabá (pod limity)
+- Potřeba zlepšení
+- Červená barva
+
+---
+
 ## [Verze 2.1] - Memory Optimizations (2024-12-04)
 
 ### 🚨 Kritické opravy

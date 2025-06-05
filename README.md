@@ -22,6 +22,8 @@ Peak Sleep is a Garmin Connect IQ widget that helps you determine how much sleep
 - **Peak Sleep View**: Shows your current Body Battery, heart rate, resting heart rate, recharge rate, estimated sleep needed, and projected wake-up time if you go to sleep now.
 - **Bedtime Advisor View**: Shows your set wake-up time, required sleep duration, ideal bedtime, and a countdown or prompt (e.g., "Go to sleep in: 1h 20m" or "Too late for full recharge!").
 
+**Note**: Historical stats and daily sleep statistics were removed to simplify the app and avoid Garmin SDK bugs with `getBodyBatteryHistory()` API.
+
 ## Settings
 - **Recharge Rate**: Adjust the base recharge rate (points per hour) through the Connect IQ app settings. Default is 11.0 points per hour. Range: 1–30.
 - **Wake-up Time**: Set your desired wake-up hour (0–23) and minute (0–59) in the app settings. The Bedtime Advisor uses this to recommend when to go to bed.

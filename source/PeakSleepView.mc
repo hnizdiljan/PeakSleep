@@ -139,7 +139,8 @@ class PeakSleepView extends WatchUi.View {
             // Aktualizuj recharge rate pouze každých 60 sekund
             if ((now - _lastRechargeRateUpdate) > 60) {
                 try {
-                    adjustedRechargeRate = SleepLogic.getEnhancedRechargeRate();
+                    var baseRate = SleepLogic.getBaseRechargeRate();
+                    adjustedRechargeRate = SleepLogic.calculateAdjustedRechargeRate(baseRate, avgHR, restingHR);
                     _cachedRechargeRate = adjustedRechargeRate;
                     _lastRechargeRateUpdate = now;
                     System.println("⚡ PeakSleepView: Recharge rate updated: " + adjustedRechargeRate.format("%.2f"));
