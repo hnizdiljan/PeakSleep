@@ -89,11 +89,21 @@ class AnswerView extends WatchUi.View {
         var cx = w / 2;
         var small = Graphics.FONT_XTINY;
         var smallH = dc.getFontHeight(small);
-        var bigH = dc.getFontHeight(bigFont);
         var subH = dc.getFontHeight(Graphics.FONT_TINY);
-        // Block of label, big value, sub line and two detail lines, centered vertically.
-        var total = smallH + bigH + subH + smallH / 3 + 2 * smallH;
-        var y = (h - total) / 2;
+        // A text answer ("Go to sleep now") shrinks before it gets truncated.
+        if (bigFont == Graphics.FONT_MEDIUM) {
+            var fonts = [Graphics.FONT_MEDIUM, Graphics.FONT_SMALL, Graphics.FONT_TINY];
+            for (var i = 0; i < fonts.size(); i++) {
+                bigFont = fonts[i];
+                var fh = dc.getFontHeight(bigFont);
+                var top = (h - blockHeight(smallH, fh, subH)) / 2 + smallH;
+                if (fit(dc, big, bigFont, top, fh).equals(big)) {
+                    break;
+                }
+            }
+        }
+        var bigH = dc.getFontHeight(bigFont);
+        var y = (h - blockHeight(smallH, bigH, subH)) / 2;
         if (!label.equals("")) {
             var moonR = smallH / 3;
             var lw = dc.getTextWidthInPixels(label, small);
@@ -115,6 +125,11 @@ class AnswerView extends WatchUi.View {
         dc.drawText(cx, y, small, fit(dc, pick(dc, line2, line2Short, small, y, smallH), small, y, smallH),
                     Graphics.TEXT_JUSTIFY_CENTER);
         drawChevron(dc, cx, (h * 0.90).toNumber());
+    }
+
+    // Block of label, big value, sub line and two detail lines, centered vertically.
+    private function blockHeight(smallH as Number, bigH as Number, subH as Number) as Number {
+        return smallH + bigH + subH + smallH / 3 + 2 * smallH;
     }
 
     // The full text when it fits the row, otherwise the short variant (if any).
