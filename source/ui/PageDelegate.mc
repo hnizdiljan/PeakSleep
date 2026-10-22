@@ -75,7 +75,8 @@ class PageDelegate extends WatchUi.BehaviorDelegate {
     }
 
     function onMenu() as Boolean {
-        return false;
+        SettingsMenu.open();
+        return true;
     }
 
     private function go(index as Number, transition as WatchUi.SlideType) as Void {
