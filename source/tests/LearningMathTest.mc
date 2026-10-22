@@ -46,3 +46,35 @@ function summarizeEmpty(logger as Logger) as Boolean {
     Test.assertEqual(s[2], 0);
     return true;
 }
+
+(:test)
+function addNightRejectsSameOrOlderNight(logger as Logger) as Boolean {
+    var stored = [] as Array<Array>;
+    stored = LearningMath.addNight(stored, new Night(0, 40, 8 * 3600, 96, 2.0));
+    // the same night detected again (e.g. after the alarm time changed)
+    stored = LearningMath.addNight(stored, new Night(0, 40, 8 * 3600, 96, 2.0));
+    Test.assertEqual(stored.size(), 1);
+    // an older night found later is ignored too
+    stored = LearningMath.addNight(stored, new Night(-86400, 40, -86400 + 8 * 3600, 96, 2.0));
+    Test.assertEqual(stored.size(), 1);
+    stored = LearningMath.addNight(stored, new Night(86400, 40, 86400 + 8 * 3600, 96, 2.0));
+    Test.assertEqual(stored.size(), 2);
+    return true;
+}
+
+(:test)
+function windowsToProcessSkipsDone(logger as Logger) as Boolean {
+    var older = [100, 200];
+    var latest = [1100, 1200];
+    // nothing processed yet: both, oldest first
+    var w = LearningMath.windowsToProcess(null, older, latest);
+    Test.assertEqual(w.size(), 2);
+    Test.assertEqual((w[0] as Array)[1], 200);
+    // older already processed
+    w = LearningMath.windowsToProcess(200, older, latest);
+    Test.assertEqual(w.size(), 1);
+    Test.assertEqual((w[0] as Array)[1], 1200);
+    // everything processed
+    Test.assertEqual(LearningMath.windowsToProcess(1200, older, latest).size(), 0);
+    return true;
+}

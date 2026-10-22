@@ -25,11 +25,14 @@ the widget loop; press Select to open the other pages.
 
 1. A background service stores one Body Battery sample every 30 minutes (only the latest value is
    read, never long history, to avoid out-of-memory crashes on older watches).
-2. Each morning the night is detected from the samples: the lowest point in the evening is
-   when you fell asleep, the highest point in the morning (or the first 100%) is when you woke up.
+2. When the widget is opened, the last two nights are detected from the samples: the lowest point in
+   the evening is when you fell asleep, the highest point in the morning (or the first 100%) is when you
+   woke up. Opening the widget at least every other day is enough; nights with a sampling gap over
+   2 hours (watch off or charging) are ignored.
 3. Recharge rate = Body Battery gained / hours slept. Evening drain = Body Battery lost in the
    3 hours before falling asleep. Both use the median of the last 7 valid nights.
-4. Bedtime T solves: `BB − drain·(T − now) + rate·(alarm − T) = target`.
+4. Bedtime T solves: `BB − drain·(T − now) + rate·(alarm − T) = target`, with the evening drain
+   stopping at Garmin's Body Battery floor of 5.
 
 Until 3 valid nights are learned the manual recharge rate is used and the app shows
 "estimate · learning N/3".

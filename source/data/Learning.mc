@@ -18,18 +18,27 @@ module Learning {
             BodyBatteryReader.read(), SampleBuffer.MAX_PAIRS, SampleBuffer.MIN_GAP));
     }
 
-    // Processes the most recent finished sleep window once.
+    // Processes finished sleep windows not seen yet: the latest one and the one
+    // before it (the 48 h sample buffer still covers it), oldest first.
     function update(now as Number) as Void {
-        var win = TimeUtil.sleepWindow(Time.today().value(), now, Settings.sleepSecOfDay(),
-                                       Settings.wakeSecOfDay());
-        if (Application.Storage.getValue(KEY_LAST_WINDOW) == win[1]) {
+        var today = Time.today().value();
+        var sleepSec = Settings.sleepSecOfDay();
+        var wakeSec = Settings.wakeSecOfDay();
+        var latest = TimeUtil.sleepWindow(today, now, sleepSec, wakeSec);
+        var older = TimeUtil.sleepWindow(today - TimeUtil.DAY, now - TimeUtil.DAY, sleepSec, wakeSec);
+        var todo = LearningMath.windowsToProcess(Application.Storage.getValue(KEY_LAST_WINDOW), older, latest);
+        if (todo.size() == 0) {
             return;
         }
         var buf = Application.Storage.getValue(SampleStore.KEY) as Array<Number>?;
-        var night = buf == null ? null : NightDetector.detect(buf, win[0], win[1]);
-        var stored = LearningMath.addNight(storedNights(), night);
+        var stored = storedNights();
+        for (var i = 0; i < todo.size(); i++) {
+            var win = todo[i] as Array<Number>;
+            var night = buf == null ? null : NightDetector.detect(buf, win[0], win[1]);
+            stored = LearningMath.addNight(stored, night);
+        }
         save(stored);
-        Application.Storage.setValue(KEY_LAST_WINDOW, win[1]);
+        Application.Storage.setValue(KEY_LAST_WINDOW, (todo[todo.size() - 1] as Array<Number>)[1]);
     }
 
     function nights() as Array<Night> {

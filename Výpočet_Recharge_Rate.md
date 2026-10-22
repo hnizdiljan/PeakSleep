@@ -20,14 +20,15 @@
 - **Rychlost noci** = (BB probuzení − BB usnutí) / hodiny mezi nimi.
 - **Večerní vybíjení** = (BB 3 h před usnutím − BB usnutí) / hodiny, pokud data pokrývají aspoň 1 h;
   ohraničeno 0–15 BB/h.
-- **Platná noc**: spánek ≥ 3 h a rychlost 2–30 BB/h.
+- **Platná noc**: spánek ≥ 3 h, rychlost 2–30 BB/h a žádná mezera mezi vzorky delší než 2 h.
 
 ## 3. Učení (`source/core/LearningMath.mc`, `source/data/Learning.mc`)
 
 - Uchovává se posledních 7 platných nocí.
 - Naučená rychlost = **medián** rychlostí, ale až od **3 platných nocí**.
 - Naučené vybíjení = medián vybíjení (výchozí bez dat 3 BB/h).
-- Každé okno se zpracuje jen jednou.
+- Při otevření widgetu se zpracují poslední 2 okna, každé jen jednou; stejná noc nalezená znovu
+  (např. po změně budíku) se nepřidá podruhé.
 
 ## 4. Doporučený čas usnutí (`source/core/BedtimeCalc.mc`)
 
@@ -40,10 +41,13 @@ Hledá se čas T (teď ≤ T ≤ budík), kdy platí:
 | Výsledek | Stav |
 |---|---|
 | BB neznámé, r ≤ 0 nebo d < 0 | Chybí data |
+| BB ≥ cíl | Nad cílem – případně „dnes spát ~T“ |
 | x ≤ 10 min a do budíku dosáhneš cíle | Jdi spát teď |
 | x ≤ 10 min a cíle nedosáhneš | Nestihneš – ukáže dosažitelné % |
-| BB ≥ cíl | Nad cílem – případně „dnes spát ~T“ |
 | jinak | Spát v T |
+
+Vybíjení se zastaví na 5 % (spodní hranice Body Battery). Pokud by predikce klesla níž, počítá se
+T = budík − (cíl − 5) / r.
 
 ### Příklad
 

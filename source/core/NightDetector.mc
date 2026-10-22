@@ -8,6 +8,8 @@ class Night {
     public var wakeBB as Number;
     // Evening drain before onset (BB per hour), null when unknown.
     public var drain as Float?;
+    // Longest gap between samples during the night (s); not stored.
+    public var maxGap as Number = 0;
 
     function initialize(onsetT as Number, onsetBB as Number, wakeT as Number, wakeBB as Number,
                         drain as Float?) {
@@ -41,6 +43,8 @@ module NightDetector {
     const DRAIN_LOOKBACK = 10800;
     const MIN_DRAIN_SPAN = 3600;
     const MAX_DRAIN = 15.0;
+    // Longer gaps (watch off or charging) make the night unreliable.
+    const MAX_GAP = 7200;
 
     // Finds the night inside [ws, we] as the largest Body Battery rise
     // (lowest sample before highest sample). Returns null without a rise.
@@ -75,8 +79,15 @@ module NightDetector {
             }
         }
         var onsetT = buf[bestFrom];
-        return new Night(onsetT, buf[bestFrom + 1], buf[bestTo], buf[bestTo + 1],
-                         eveningDrain(buf, onsetT, buf[bestFrom + 1]));
+        var night = new Night(onsetT, buf[bestFrom + 1], buf[bestTo], buf[bestTo + 1],
+                              eveningDrain(buf, onsetT, buf[bestFrom + 1]));
+        for (var k = bestFrom; k < bestTo; k += 2) {
+            var gap = buf[k + 2] - buf[k];
+            if (gap > night.maxGap) {
+                night.maxGap = gap;
+            }
+        }
+        return night;
     }
 
     // Drain rate over the hours before onset, from the earliest sample in the lookback.
@@ -98,7 +109,7 @@ module NightDetector {
     }
 
     function isValid(n as Night) as Boolean {
-        if (n.wakeT - n.onsetT < MIN_SLEEP) {
+        if (n.wakeT - n.onsetT < MIN_SLEEP || n.maxGap > MAX_GAP) {
             return false;
         }
         var r = n.rate();

@@ -27,3 +27,15 @@ function resolveRateCases(logger as Logger) as Boolean {
     Test.assertEqual(r[1], Settings.RATE_MANUAL);
     return true;
 }
+
+(:test)
+function profileWakeBeforeMigration(logger as Logger) as Boolean {
+    // 2.x user with a 05:30 alarm, not yet migrated: keep the manual alarm
+    Test.assert(!Settings.profileWakeEffective(0, null, 5 * 3600 + 1800));
+    // default alarm before migration: profile
+    Test.assert(Settings.profileWakeEffective(0, null, 7 * 3600));
+    // migrated: the property decides
+    Test.assert(Settings.profileWakeEffective(0, 3, 5 * 3600 + 1800));
+    Test.assert(!Settings.profileWakeEffective(1, 3, 7 * 3600));
+    return true;
+}

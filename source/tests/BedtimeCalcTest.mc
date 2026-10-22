@@ -71,3 +71,21 @@ function computeZeroRate(logger as Logger) as Boolean {
     Test.assertEqual(BedtimeCalc.compute(50, 100, 0, 8 * 3600, 5.0, -1.0).state, BedtimeCalc.STATE_NO_DATA);
     return true;
 }
+
+(:test)
+function computeDrainStopsAtFloor(logger as Logger) as Boolean {
+    // morning after a bad night: BB 30, alarm in 23.5 h, drain 3/h, rate 10/h
+    var p = BedtimeCalc.compute(30, 100, 0, (23.5 * 3600).toNumber(), 10.0, 3.0);
+    Test.assertEqual(p.state, BedtimeCalc.STATE_PLAN);
+    Test.assertEqual(p.bbAtBed, BedtimeCalc.BB_FLOOR);
+    // from the floor (5) it takes 9.5 h at 10/h to reach 100 -> bedtime 14 h from now
+    Test.assertEqual(p.bedtime, (23.5 * 3600).toNumber() - (9.5 * 3600).toNumber());
+    return true;
+}
+
+(:test)
+function computeFullBbNearAlarmIsCharged(logger as Logger) as Boolean {
+    var p = BedtimeCalc.compute(100, 100, 0, 300, 10.0, 3.0);
+    Test.assertEqual(p.state, BedtimeCalc.STATE_CHARGED);
+    return true;
+}

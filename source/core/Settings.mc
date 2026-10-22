@@ -62,12 +62,22 @@ module Settings {
     }
 
     function useProfileWake() as Boolean {
-        return prop(KEY_WAKE_SOURCE, 0, 0, 1) == 0;
+        return profileWakeEffective(prop(KEY_WAKE_SOURCE, 0, 0, 1), Application.Storage.getValue("ver"),
+                                    manualWakeSec());
     }
 
     function manualWakeSec() as Number {
         return prop(KEY_WAKE_HOUR, DEFAULT_WAKE_HOUR, 0, 23) * 3600
             + prop(KEY_WAKE_MINUTE, DEFAULT_WAKE_MINUTE, 0, 59) * 60;
+    }
+
+    // Before migrate() has run (e.g. only the glance was shown after an upgrade),
+    // a custom 2.x alarm still wins over the Garmin profile.
+    function profileWakeEffective(source as Number, ver, manualWake as Number) as Boolean {
+        if (ver == null && manualWake != DEFAULT_WAKE_HOUR * 3600 + DEFAULT_WAKE_MINUTE * 60) {
+            return false;
+        }
+        return source == 0;
     }
 
     function wakeSecOfDay() as Number {

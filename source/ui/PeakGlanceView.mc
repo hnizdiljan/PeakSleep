@@ -66,6 +66,17 @@ class PeakGlanceView extends WatchUi.GlanceView {
 
         var mainFont = Graphics.FONT_TINY;
         var detailFont = Graphics.FONT_XTINY;
+        var avail = dc.getWidth() - x;
+        // The time must always be visible: shrink the font first, then drop the lead.
+        if (dc.getTextWidthInPixels(lead + main, mainFont) > avail) {
+            mainFont = Graphics.FONT_XTINY;
+            if (dc.getTextWidthInPixels(lead + main, mainFont) > avail) {
+                lead = "";
+            }
+        }
+        if (dc.getTextWidthInPixels(main, mainFont) > avail) {
+            main = Graphics.fitTextToArea(main, mainFont, avail, dc.getFontHeight(mainFont), true);
+        }
         var mainH = dc.getFontHeight(mainFont);
         var detailH = dc.getFontHeight(detailFont);
         var top = (h - mainH - detailH) / 2;
@@ -74,7 +85,6 @@ class PeakGlanceView extends WatchUi.GlanceView {
         dc.drawText(x, top, mainFont, lead, Graphics.TEXT_JUSTIFY_LEFT);
         dc.setColor(mainColor, Graphics.COLOR_TRANSPARENT);
         dc.drawText(x + dc.getTextWidthInPixels(lead, mainFont), top, mainFont, main, Graphics.TEXT_JUSTIFY_LEFT);
-        var avail = dc.getWidth() - x;
         if (dc.getTextWidthInPixels(detail, detailFont) > avail && !detailShort.equals("")) {
             detail = detailShort;
         }

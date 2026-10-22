@@ -29,6 +29,8 @@ module BedtimeCalc {
 
     // A bedtime closer than this to now is shown as "go to sleep now".
     const NOW_WINDOW = 600;
+    // Garmin's Body Battery does not drop below about 5.
+    const BB_FLOOR = 5;
 
     // Finds the time T between now and the alarm at which falling asleep reaches
     // `target` by the alarm, given evening drain `drain` and night recharge
@@ -44,8 +46,24 @@ module BedtimeCalc {
 
         var hoursLeft = (alarm - now) / 3600.0;
         var x = (bb - target + rate * hoursLeft) / (drain + rate);
+        // Body Battery never drains below the floor: once it gets there, only
+        // the time asleep matters.
+        var low = bb < BB_FLOOR ? bb : BB_FLOOR;
+        var drained = false;
+        if (bb - drain * x < low) {
+            x = hoursLeft - (target - low) / rate;
+            drained = true;
+        }
+        var nowWindow = NOW_WINDOW / 3600.0;
 
-        if (x <= NOW_WINDOW / 3600.0) {
+        if (bb >= target) {
+            p.state = STATE_CHARGED;
+            p.bbAtBed = drained ? low : Math.round(bb - drain * x).toNumber();
+            p.bedtime = (x >= hoursLeft || x <= nowWindow) ? null : now + Math.round(x * 3600).toNumber();
+            return p;
+        }
+
+        if (x <= nowWindow) {
             var reach = Math.round(bb + rate * hoursLeft).toNumber();
             p.reachable = reach > 100 ? 100 : reach;
             p.bedtime = now;
@@ -54,14 +72,9 @@ module BedtimeCalc {
             return p;
         }
 
-        p.bbAtBed = Math.round(bb - drain * x).toNumber();
-        if (bb >= target) {
-            p.state = STATE_CHARGED;
-            p.bedtime = x >= hoursLeft ? null : now + Math.round(x * 3600).toNumber();
-        } else {
-            p.state = STATE_PLAN;
-            p.bedtime = now + Math.round(x * 3600).toNumber();
-        }
+        p.bbAtBed = drained ? low : Math.round(bb - drain * x).toNumber();
+        p.state = STATE_PLAN;
+        p.bedtime = now + Math.round(x * 3600).toNumber();
         return p;
     }
 }

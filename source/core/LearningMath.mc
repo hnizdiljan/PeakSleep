@@ -10,11 +10,29 @@ module LearningMath {
         if (n == null || !NightDetector.isValid(n)) {
             return stored;
         }
+        // The same night can be found again (e.g. after the alarm time changed).
+        if (stored.size() > 0 && n.wakeT <= Night.fromArray(stored[stored.size() - 1]).wakeT) {
+            return stored;
+        }
         stored.add(n.toArray());
         if (stored.size() > MAX_NIGHTS) {
             stored = stored.slice(stored.size() - MAX_NIGHTS, null);
         }
         return stored;
+    }
+
+    // Learning windows not processed yet, oldest first. `lastDone` is the end of
+    // the newest processed window (null when none).
+    function windowsToProcess(lastDone, older as Array, latest as Array) as Array {
+        var out = [];
+        var done = lastDone instanceof Number ? lastDone : null;
+        if (done == null || (older[1] as Number) > done) {
+            out.add(older);
+        }
+        if (done == null || (latest[1] as Number) > done) {
+            out.add(latest);
+        }
+        return out;
     }
 
     // [learned rate or null (fewer than MIN_NIGHTS), learned drain or null, night count]

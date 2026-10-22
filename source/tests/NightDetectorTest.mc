@@ -143,3 +143,14 @@ function medianOddEven(logger as Logger) as Boolean {
     Test.assert(NightDetector.median([]) == null);
     return true;
 }
+
+(:test)
+function isValidRejectsLongGap(logger as Logger) as Boolean {
+    var m = 10 * TimeUtil.DAY;
+    // watch off/charging 21:00-07:00: only the two ends were sampled
+    var buf = [m - 3 * 3600, 40, m + 7 * 3600, 90];
+    var n = NightDetector.detect(buf, m - 4 * 3600, m + 10 * 3600);
+    Test.assert(n != null);
+    Test.assert(!NightDetector.isValid(n as Night));
+    return true;
+}

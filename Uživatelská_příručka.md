@@ -55,11 +55,14 @@ budíku „Ruční“.
 ## Jak to počítá
 
 - Hodinky si každých 30 minut na pozadí uloží aktuální Body Battery.
-- Ráno widget najde v datech noc: nejnižší bod večer = usnutí, nejvyšší bod ráno (nebo první 100 %) =
-  probuzení. Rychlost nabíjení = získané body / hodiny spánku.
+- Při otevření widgetu (ne jen glance) se v datech najdou poslední 2 noci: nejnižší bod večer = usnutí,
+  nejvyšší bod ráno (nebo první 100 %) = probuzení. Rychlost nabíjení = získané body / hodiny spánku.
+  **Stačí otevřít widget aspoň jednou za 2 dny**, jinak se starší noc ztratí.
+- Noc, ve které hodinky víc než 2 hodiny nesbíraly data (vypnuté, nabíjení), se nezapočítá.
 - Večerní vybíjení = kolik BB ubylo za 3 hodiny před usnutím.
 - Z posledních 7 platných nocí se bere medián (jedna divná noc výsledek nerozhodí). Platná noc má
   alespoň 3 hodiny spánku a rychlost 2–30 BB/h.
+- Body Battery podle Garminu neklesne pod 5 %, takže večerní vybíjení se tam zastaví.
 - Čas usnutí T se spočítá tak, aby platilo: BB teď − vybíjení·(T − teď) + nabíjení·(budík − T) = cíl.
 
 Podrobnosti: `Výpočet_Recharge_Rate.md`.
