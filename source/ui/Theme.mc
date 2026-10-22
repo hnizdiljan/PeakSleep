@@ -35,6 +35,14 @@ module Theme {
         return Graphics.COLOR_WHITE;
     }
 
+    // Darker shade of the state color for the predicted evening drain on the ring.
+    function darkColor(state as Number) as Number {
+        if (state == BedtimeCalc.STATE_CHARGED) {
+            return 0x1F5F2C;
+        }
+        return state == BedtimeCalc.STATE_PLAN ? C_YELLOW_DARK : 0x444444;
+    }
+
     function str(id as ResourceId) as String {
         return WatchUi.loadResource(id) as String;
     }

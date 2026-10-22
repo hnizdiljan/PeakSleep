@@ -31,6 +31,8 @@ class PeakGlanceView extends WatchUi.GlanceView {
         var mainColor = Graphics.COLOR_WHITE;
         var detail = Theme.str(Rez.Strings.bbUnavailable);
         var detailColor = Theme.C_DIM;
+        // Used when `detail` does not fit the glance width.
+        var detailShort = "";
 
         var bbText = p.bb == null ? "" : Theme.fmt(Rez.Strings.bbValue, [p.bb]);
         if (p.state == BedtimeCalc.STATE_PLAN) {
@@ -40,13 +42,16 @@ class PeakGlanceView extends WatchUi.GlanceView {
             mainColor = Theme.C_YELLOW;
             if (info.rateSource == Settings.RATE_LEARNING) {
                 detail = Theme.fmt(Rez.Strings.learning, [info.nights]);
+                detailShort = Theme.fmt(Rez.Strings.learningShort, [info.nights]);
             } else {
-                detail = Theme.fmt(Rez.Strings.inDuration, [TimeUtil.formatDuration(bed - now)]) + " · " + bbText;
+                detailShort = Theme.fmt(Rez.Strings.inDuration, [TimeUtil.formatDuration(bed - now)]);
+                detail = detailShort + " · " + bbText;
             }
         } else if (p.state == BedtimeCalc.STATE_NOW) {
             main = Theme.str(Rez.Strings.goToSleepNow);
             mainColor = Theme.C_BLUE;
-            detail = Theme.fmt(Rez.Strings.targetBy, [info.target, Theme.hm(p.alarm)]) + " · " + bbText;
+            detailShort = Theme.fmt(Rez.Strings.targetBy, [info.target, Theme.hm(p.alarm)]);
+            detail = detailShort + " · " + bbText;
         } else if (p.state == BedtimeCalc.STATE_LATE) {
             main = Theme.str(Rez.Strings.sleepNow);
             detail = Theme.fmt(Rez.Strings.onlyReach, [p.reachable]);
@@ -69,6 +74,13 @@ class PeakGlanceView extends WatchUi.GlanceView {
         dc.drawText(x, top, mainFont, lead, Graphics.TEXT_JUSTIFY_LEFT);
         dc.setColor(mainColor, Graphics.COLOR_TRANSPARENT);
         dc.drawText(x + dc.getTextWidthInPixels(lead, mainFont), top, mainFont, main, Graphics.TEXT_JUSTIFY_LEFT);
+        var avail = dc.getWidth() - x;
+        if (dc.getTextWidthInPixels(detail, detailFont) > avail && !detailShort.equals("")) {
+            detail = detailShort;
+        }
+        if (dc.getTextWidthInPixels(detail, detailFont) > avail) {
+            detail = Graphics.fitTextToArea(detail, detailFont, avail, detailH, true);
+        }
         dc.setColor(detailColor, Graphics.COLOR_TRANSPARENT);
         dc.drawText(x, top + mainH, detailFont, detail, Graphics.TEXT_JUSTIFY_LEFT);
     }

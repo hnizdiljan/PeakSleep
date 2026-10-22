@@ -5,14 +5,6 @@ import Toybox.System;
 import Toybox.Time;
 import Toybox.WatchUi;
 
-// Legacy constants used by the 2.x views (removed in task 7).
-const BASE_RECHARGE_RATE_KEY = "baseRechargeRate";
-const DEFAULT_RECHARGE_RATE = 10.0f;
-const WAKE_UP_HOUR_KEY = "wakeUpHour";
-const WAKE_UP_MINUTE_KEY = "wakeUpMinute";
-const DEFAULT_WAKE_UP_HOUR = 7;
-const DEFAULT_WAKE_UP_MINUTE = 0;
-
 (:background, :glance)
 class PeakSleepApp extends Application.AppBase {
 
@@ -25,7 +17,7 @@ class PeakSleepApp extends Application.AppBase {
 
     function getInitialView() as [Views] or [Views, InputDelegates] {
         prepareForeground();
-        return [new PeakSleepView(), new PeakSleepDelegate()];
+        return [new AnswerView(), new PageDelegate(PAGE_ANSWER, !opensFromGlance())];
     }
 
     (:glance)

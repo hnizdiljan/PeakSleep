@@ -16,7 +16,10 @@
     <string id="learning" scope="glance">estimate · learning $1$/3</string>
     <string id="bbUnavailable" scope="glance">Body Battery unavailable</string>
     <string id="bbValue" scope="glance">BB $1$%</string>
-    <string id="bbAtBed">BB $1$% → $2$% at bedtime</string>
+    <string id="pctValue">$1$%</string>
+    <string id="bbAtBedShort">$1$% at bedtime</string>
+    <string id="learningShort" scope="glance">learning $1$/3</string>
+    <string id="bbAtBed">BB $1$% · $2$% at bedtime</string>
 
     <!-- Detail page -->
     <string id="whyTitle">WHY $1$</string>
@@ -54,17 +57,4 @@
     <string id="optManual">Manual</string>
     <string id="optProfile">Garmin sleep schedule</string>
 
-    <!-- Legacy 2.x views (removed in task 7) -->
-    <string id="labelBodyBattery">BB</string>
-    <string id="labelHeartRate">HR</string>
-    <string id="labelEstSleep">Sleep</string>
-    <string id="labelRhr">RHR</string>
-    <string id="labelRechargeRate">Rate</string>
-    <string id="valueNotAvailable">N/A</string>
-    <string id="valueCalculating">...</string>
-    <string id="valueChargeNotPossible">Cannot recharge</string>
-    <string id="valueFull">Full</string>
-    <string id="bedtimeTooLate">Too late for full recharge!</string>
-    <string id="bedtimeGoToSleepIn">Go to sleep in:</string>
-    <string id="bedtimeSleepNow">Sleep now for full recharge!</string>
 </strings>
