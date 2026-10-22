@@ -110,3 +110,12 @@ connectiq --help
 # Zkontrolujte dostupná zařízení:
 connectiq --list-devices
 ``` 
+
+## Build a testy (PeakSleep 3.0)
+
+V kořeni projektu musí být `developer_key`.
+
+```powershell
+.\build_and_run.ps1 -Device fenix843mm   # build do bin\ a spuštění v simulátoru
+.\run_tests.ps1                         # unit testy (spustí simulátor, pokud neběží)
+```

@@ -1,0 +1,59 @@
+<strings>
+    <string id="AppName" scope="glance">Peak Sleep</string>
+
+    <!-- Glance a hlavní stránka. Varianty V/Ve podle hodiny. -->
+    <string id="sleepAtV" scope="glance">Spát v</string>
+    <string id="sleepAtVe" scope="glance">Spát ve</string>
+    <string id="labelSleepAtV">JDI SPÁT V</string>
+    <string id="labelSleepAtVe">JDI SPÁT VE</string>
+    <string id="inDuration" scope="glance">za $1$</string>
+    <string id="goToSleepNow" scope="glance">Jdi spát teď</string>
+    <string id="sleepNow" scope="glance">Spát hned</string>
+    <string id="onlyReach" scope="glance">do budíku jen $1$ %</string>
+    <string id="targetBy" scope="glance">$1$ % do $2$</string>
+    <string id="tonightAround" scope="glance">dnes spát ~$1$</string>
+    <string id="charged" scope="glance">nabito</string>
+    <string id="learning" scope="glance">odhad · učím se $1$/3</string>
+    <string id="bbUnavailable" scope="glance">Body Battery nedostupné</string>
+    <string id="bbValue" scope="glance">BB $1$ %</string>
+    <string id="pctValue">$1$ %</string>
+    <string id="bbAtBedShort">$1$ % při usnutí</string>
+    <string id="learningShort" scope="glance">učím se $1$/3</string>
+    <string id="bbAtBed">BB $1$ % · $2$ % při usnutí</string>
+
+    <!-- Detail -->
+    <string id="whyTitle">PROČ $1$</string>
+    <string id="rowBbNow">BB teď</string>
+    <string id="rowDrain">Večer vybiješ</string>
+    <string id="rowRate">Nabíjení</string>
+    <string id="rowTarget">Cíl</string>
+    <string id="srcAuto">auto · $1$ $2$</string>
+    <string id="srcManual">ruční</string>
+    <string id="nightOne">noc</string>
+    <string id="nightFew">noci</string>
+    <string id="nightMany">nocí</string>
+
+    <!-- Historie -->
+    <string id="historyTitle">POSLEDNÍ NOCI</string>
+    <string id="historyEmpty">Zatím žádné noci. Vrať se ráno.</string>
+    <string id="historyAvg">Ø $1$ BB/h · $2$</string>
+
+    <!-- Menu v hodinkách -->
+    <string id="menuTitle">Nastavení</string>
+    <string id="menuReset">Smazat naučená data</string>
+    <string id="menuResetConfirm">Smazat naučená data?</string>
+    <string id="menuAlarmTime">Čas budíku</string>
+
+    <!-- Nastavení (Garmin Connect a menu v hodinkách) -->
+    <string id="setTarget">Cílová Body Battery</string>
+    <string id="setTargetPrompt">Procenta (50-100)</string>
+    <string id="setRateMode">Rychlost nabíjení</string>
+    <string id="setRate">Ruční rychlost nabíjení</string>
+    <string id="setRatePrompt">Body BB za hodinu (1-30)</string>
+    <string id="setWakeSource">Zdroj budíku</string>
+    <string id="setWakeHour">Hodina budíku</string>
+    <string id="setWakeMinute">Minuta budíku</string>
+    <string id="optAuto">Auto (naučená)</string>
+    <string id="optManual">Ruční</string>
+    <string id="optProfile">Plán spánku Garmin</string>
+</strings>

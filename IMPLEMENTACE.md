@@ -1,3 +1,5 @@
+> **Historický dokument.** Popisuje funkce z verze 2.x, které byly odstraněny ve verzi 2.3 a nahrazeny ve verzi 3.0. Aktuální popis: `README.md`, `Výpočet_Recharge_Rate.md`.
+
 # Implementace Enhanced Recharge Rate - Návod
 
 ## ✅ Co bylo implementováno

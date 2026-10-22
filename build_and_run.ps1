@@ -20,7 +20,8 @@ if ($Help) {
 
 Write-Host "Building PeakSleep aplikace pro $Device..." -ForegroundColor Cyan
 
-$buildResult = & monkeyc -f monkey.jungle -o PeakSleep.prg -y developer_key -d $Device 2>&1
+New-Item -ItemType Directory -Force bin | Out-Null
+$buildResult = & monkeyc -f monkey.jungle -o bin\PeakSleep.prg -y developer_key -d $Device 2>&1
 
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Build selhal!" -ForegroundColor Red
@@ -42,14 +43,14 @@ if (-not $connectiqProcess) {
 }
 
 Write-Host "Spoustim emulator pro $Device pres monkeydo..." -ForegroundColor Cyan
-$emulatorResult = & monkeydo PeakSleep.prg $Device 2>&1
+$emulatorResult = & monkeydo bin\PeakSleep.prg $Device 2>&1
 
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Spusteni emulatoru selhalo!" -ForegroundColor Red
     Write-Host $emulatorResult -ForegroundColor Red
     
     Write-Host "Zkousim alternativni zpusob..." -ForegroundColor Yellow
-    $altResult = & connectiq --device $Device --run PeakSleep.prg 2>&1
+    $altResult = & connectiq --device $Device --run bin\PeakSleep.prg 2>&1
     
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Alternativni spusteni selhalo!" -ForegroundColor Red

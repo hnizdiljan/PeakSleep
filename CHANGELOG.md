@@ -1,5 +1,29 @@
 # Changelog - PeakSleep
 
+## [Verze 3.0] - Redesign: glance, učení z nocí, nové UX (2026-10-22)
+
+### Nové
+- **Glance** v seznamu widgetů: „☾ Spát ve 22:40 · za 1 h 20 min · BB 54 %“ se 6 stavy
+  (plán / jdi spát teď / nestihneš / nad cílem / učí se / chybí data).
+- **Automatická rychlost nabíjení** naučená z posledních 7 nocí (medián, od 3 platných nocí).
+- **Predikce večerního vybíjení** – doporučený čas počítá s tím, kolik BB do usnutí ještě ubude.
+- Když cíl nestihneš, ukáže **kolik % do budíku dobiješ**.
+- **Nastavitelný cíl** (50–100 %) a **budík z plánu spánku Garmin**.
+- Nové stránky: **Odpověď** (prstenec BB), **Proč** (vstupy výpočtu), **Poslední noci** (graf).
+- **Nastavení přímo v hodinkách** (Menu), včetně smazání naučených dat.
+- **Čeština**.
+
+### Změněno
+- Background služba každých 30 min ukládá jeden vzorek BB; dlouhá historie se nikdy nečte (OOM).
+- Odstraněna úprava rychlosti podle tepu a zobrazení HR/RHR.
+- Sjednocená výchozí ruční rychlost na 10 BB/h.
+- Kód rozdělen na `core` (čistá logika s unit testy), `data` a `ui`; odstraněny debug výpisy.
+- Migrace: uživatelé s vlastním budíkem (≠ 7:00) zůstávají na ručním budíku.
+
+### Odebráno
+- Podpora Forerunner 645 / 645 Music / 935 (nemají API pro Body Battery).
+- Oprávnění `Sensor` (tep se už nečte); přidáno `Background`.
+
 ## [Verze 2.3] - Zjednodušení aplikace (2024-12-15)
 
 ### 🗑️ Odstraněno
