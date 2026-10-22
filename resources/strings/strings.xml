@@ -1,21 +1,21 @@
 <strings>
-    <string id="AppName">Peak Sleep</string>
+    <string id="AppName" scope="glance">Peak Sleep</string>
 
     <!-- Glance and answer page. "V"/"Ve" variants exist for Czech grammar. -->
-    <string id="sleepAtV">Sleep at</string>
-    <string id="sleepAtVe">Sleep at</string>
+    <string id="sleepAtV" scope="glance">Sleep at</string>
+    <string id="sleepAtVe" scope="glance">Sleep at</string>
     <string id="labelSleepAtV">GO TO SLEEP AT</string>
     <string id="labelSleepAtVe">GO TO SLEEP AT</string>
-    <string id="inDuration">in $1$</string>
-    <string id="goToSleepNow">Go to sleep now</string>
-    <string id="sleepNow">Sleep now</string>
-    <string id="onlyReach">only $1$% by alarm</string>
-    <string id="targetBy">$1$% by $2$</string>
-    <string id="tonightAround">sleep tonight ~$1$</string>
-    <string id="charged">charged</string>
-    <string id="learning">estimate · learning $1$/3</string>
-    <string id="bbUnavailable">Body Battery unavailable</string>
-    <string id="bbValue">BB $1$%</string>
+    <string id="inDuration" scope="glance">in $1$</string>
+    <string id="goToSleepNow" scope="glance">Go to sleep now</string>
+    <string id="sleepNow" scope="glance">Sleep now</string>
+    <string id="onlyReach" scope="glance">only $1$% by alarm</string>
+    <string id="targetBy" scope="glance">$1$% by $2$</string>
+    <string id="tonightAround" scope="glance">sleep tonight ~$1$</string>
+    <string id="charged" scope="glance">charged</string>
+    <string id="learning" scope="glance">estimate · learning $1$/3</string>
+    <string id="bbUnavailable" scope="glance">Body Battery unavailable</string>
+    <string id="bbValue" scope="glance">BB $1$%</string>
     <string id="bbAtBed">BB $1$% → $2$% at bedtime</string>
 
     <!-- Detail page -->

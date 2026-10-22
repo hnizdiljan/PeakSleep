@@ -28,6 +28,12 @@ class PeakSleepApp extends Application.AppBase {
         return [new PeakSleepView(), new PeakSleepDelegate()];
     }
 
+    (:glance)
+    function getGlanceView() as [GlanceView] or [GlanceView, GlanceViewDelegate] or Null {
+        ensureBackground();
+        return [new PeakGlanceView()];
+    }
+
     function getServiceDelegate() as [System.ServiceDelegate] {
         return [new SampleService()];
     }
