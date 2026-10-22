@@ -1,67 +1,70 @@
 import Toybox.Application;
+import Toybox.Background;
 import Toybox.Lang;
+import Toybox.System;
+import Toybox.Time;
 import Toybox.WatchUi;
 
-// Define the storage key for the base recharge rate setting
+// Legacy constants used by the 2.x views (removed in task 7).
 const BASE_RECHARGE_RATE_KEY = "baseRechargeRate";
-// Define the default recharge rate if not set by user
-const DEFAULT_RECHARGE_RATE = 11.0f;
-
-// Define storage keys for wake-up time settings
+const DEFAULT_RECHARGE_RATE = 10.0f;
 const WAKE_UP_HOUR_KEY = "wakeUpHour";
 const WAKE_UP_MINUTE_KEY = "wakeUpMinute";
-
-// Define default wake-up time if not set by user
 const DEFAULT_WAKE_UP_HOUR = 7;
 const DEFAULT_WAKE_UP_MINUTE = 0;
 
+(:background, :glance)
 class PeakSleepApp extends Application.AppBase {
 
+    // Body Battery sampling interval for learning.
+    const SAMPLE_INTERVAL = 1800;
+
     function initialize() {
-        System.println("🚀 PeakSleepApp: Initializing application...");
         AppBase.initialize();
-        System.println("✅ PeakSleepApp: Application initialized successfully");
     }
 
-    // onStart() is called on application start up
-    function onStart(state as Dictionary?) as Void {
-        System.println("🌟 PeakSleepApp: Application starting up...");
-        if (state != null) {
-            System.println("📦 PeakSleepApp: Received state with " + state.size() + " items");
-        } else {
-            System.println("📦 PeakSleepApp: No state received (fresh start)");
-        }
-    }
-
-    // onStop() is called when your application is exiting
-    function onStop(state as Dictionary?) as Void {
-        System.println("🛑 PeakSleepApp: Application stopping...");
-    }
-
-    // Return the initial view of your application here
     function getInitialView() as [Views] or [Views, InputDelegates] {
-        System.println("🎯 PeakSleepApp: Creating initial view...");
-        try {
-            var view = new PeakSleepView();
-            System.println("✅ PeakSleepApp: PeakSleepView created successfully");
-            
-            var delegate = new PeakSleepDelegate(); // Basic delegate
-            System.println("✅ PeakSleepApp: PeakSleepDelegate created successfully");
-            
-            return [ view, delegate ];
-        } catch (ex) {
-            System.println("❌ PeakSleepApp: Error creating initial view: " + ex.getErrorMessage());
-            throw ex;
-        }
+        prepareForeground();
+        return [new PeakSleepView(), new PeakSleepDelegate()];
     }
 
-    // New app settings have been received so trigger a UI update
+    function getServiceDelegate() as [System.ServiceDelegate] {
+        return [new SampleService()];
+    }
+
     function onSettingsChanged() as Void {
         WatchUi.requestUpdate();
     }
 
+    // Upgrade settings, make sure background sampling runs and learn from
+    // the last night.
+    function prepareForeground() as Void {
+        try {
+            Settings.migrate();
+        } catch (e) {
+        }
+        ensureBackground();
+        var now = Time.now().value();
+        try {
+            Learning.recordSample(now);
+            Learning.update(now);
+        } catch (e) {
+        }
+    }
+
+    function ensureBackground() as Void {
+        if (!(Toybox has :Background)) {
+            return;
+        }
+        try {
+            if (Background.getTemporalEventRegisteredTime() == null) {
+                Background.registerForTemporalEvent(new Time.Duration(SAMPLE_INTERVAL));
+            }
+        } catch (e) {
+        }
+    }
 }
 
 function getApp() as PeakSleepApp {
     return Application.getApp() as PeakSleepApp;
-} 
+}
