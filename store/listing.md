@@ -11,6 +11,7 @@ Texts below are plain text – the store does not render Markdown (copy everythi
 | File | Use |
 |---|---|
 | `icon.jpg` (500×500, unchanged) | Store icon |
+| `store/hero-1440x720.jpg` | Hero image (optional, mobile store) |
 | `store/screenshots/en-1-glance.png` | Screenshot 1 – glance list row |
 | `store/screenshots/en-2-answer.png` | Screenshot 2 – answer page |
 | `store/screenshots/en-3-why.png` | Screenshot 3 – why page |
