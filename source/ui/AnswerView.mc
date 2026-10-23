@@ -97,7 +97,7 @@ class AnswerView extends WatchUi.View {
             sub = MorningData.lateText(morning[1] as Number);
             subColor = Graphics.COLOR_WHITE;
             line1 = MorningData.streakText(morning[2] as Number, morning[3] as Number);
-            line1Short = "";
+            line1Short = MorningData.streakTiny(morning[2] as Number, morning[3] as Number);
             line2 = "";
             line2Short = "";
         }

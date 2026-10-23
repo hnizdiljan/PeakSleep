@@ -25,10 +25,10 @@
     <string id="morningCharged" scope="glance">Charged to $1$%</string>
     <string id="bedOnTime" scope="glance">bedtime on time</string>
     <string id="bedLate" scope="glance">$1$ late</string>
-    <string id="streakBelowFew" scope="glance">$1$ nights below target</string>
-    <string id="streakBelowMany" scope="glance">$1$ nights below target</string>
-    <string id="streakAtFew" scope="glance">$1$ nights at target</string>
-    <string id="streakAtMany" scope="glance">$1$ nights at target</string>
+    <string id="streakBelowFew" scope="glance">$1$ nights short</string>
+    <string id="streakBelowMany" scope="glance">$1$ nights short</string>
+    <string id="streakAtFew" scope="glance">$1$ good nights</string>
+    <string id="streakAtMany" scope="glance">$1$ good nights</string>
     <string id="streakBelowTiny" scope="glance">$1$× below</string>
     <string id="streakAtTiny" scope="glance">$1$× on target</string>
     <string id="labelLastNight">LAST NIGHT</string>

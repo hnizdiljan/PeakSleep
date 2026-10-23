@@ -1,8 +1,8 @@
-# Connect IQ Store listing – Peak Sleep 3.0.0
+# Connect IQ Store listing – Peak Sleep 3.1.0
 
 Store page: https://apps.garmin.com/apps/959a7cf1-fcbf-43fa-970b-93e469f4e4f8
-Package: `publish/PeakSleep-3.0.0.iq` (signed with `developer_key`, same key as 1.x)
-Version to enter on upload: **3.0.0** (store currently has 1.2.0)
+Package: `publish/PeakSleep-3.1.0.iq` (signed with `developer_key`, same key as 1.x)
+Version to enter on upload: **3.1.0** (store has 3.0.0, released 2026-10-22)
 
 Texts below are plain text – the store does not render Markdown (copy everything between the lines).
 
@@ -17,6 +17,8 @@ Texts below are plain text – the store does not render Markdown (copy everythi
 | `store/screenshots/en-3-why.png` | Screenshot 3 – why page |
 | `store/screenshots/en-4-last-nights.png` | Screenshot 4 – last nights |
 | `store/screenshots/en-5-sleep-now.png` | Screenshot 5 – go to sleep now |
+| `store/screenshots/en-6-morning.png` | Screenshot 6 – morning summary (answer page, new in 3.1.0) |
+| `store/screenshots/en-7-morning-glance.png` | Screenshot 7 – morning summary in the glance (new in 3.1.0) |
 | `store/screenshots/cs-1-glance.png`, `cs-2-answer.png` | Czech alternatives (for a Czech listing, if used) |
 
 All screenshots are 500×500 PNG under 150 KB, rendered from the real app on fēnix 8 43mm.
@@ -38,6 +40,7 @@ WHAT YOU SEE
 - Answer: Body Battery ring (the darker part is what the evening will still drain), bedtime, countdown, Body Battery at bedtime.
 - Why: the inputs – Body Battery now, evening drain, recharge rate and where it comes from.
 - Last nights: recharge rate of up to 7 learned nights.
+- Morning summary (after waking up until noon): "Charged to 92%", whether you went to bed on time ("35 min late") and how many nights in a row you fell short of your target or reached it.
 
 HOW IT WORKS
 - A background service stores one Body Battery sample every 30 minutes.
@@ -57,6 +60,19 @@ TIPS
 
 Languages: English, Czech.
 Requires a watch with Body Battery. Forerunner 645 / 645 Music / 935 are no longer supported (no Body Battery API).
+----------------------------------------------------------------
+
+## What's New – 3.1.0 (EN)
+
+----------------------------------------------------------------
+Peak Sleep 3.1 – morning summary
+
+NEW
+- Morning summary in the glance and on the main page: after you wake up it shows how much Body Battery you reached ("Charged to 92%"), whether you went to bed on time ("35 min late") and your streak ("3 nights short" / "5 good nights"). It stays until noon.
+- Wake-up detection: the night is closed when Body Battery stops rising and you have walked at least 100 steps.
+
+FIXED
+- Last night is learned right after you wake up. Before, it took until about 3 hours after your usual wake time, so in the morning the Last nights page still said "No nights yet".
 ----------------------------------------------------------------
 
 ## What's New – 3.0.0 (EN)
@@ -104,6 +120,7 @@ CO UVIDÍŠ
 - Odpověď: prstenec Body Battery (tmavší část je to, co ještě večer vybiješ), čas usnutí, odpočet, BB při usnutí.
 - Proč: vstupy výpočtu – BB teď, večerní vybíjení, rychlost nabíjení a její zdroj.
 - Poslední noci: rychlost nabíjení až za 7 naučených nocí.
+- Ranní souhrn (po probuzení do poledne): „Nabito na 92 %“, jestli jsi šel spát včas („pozdě o 35 min“) a kolik nocí po sobě jsi cíl nestihl nebo splnil.
 
 JAK TO FUNGUJE
 - Služba na pozadí každých 30 minut uloží jednu hodnotu Body Battery.
@@ -123,6 +140,19 @@ TIPY
 
 Jazyky: angličtina, čeština.
 Vyžaduje hodinky s Body Battery. Forerunner 645 / 645 Music / 935 už podporované nejsou (nemají API pro Body Battery).
+----------------------------------------------------------------
+
+## Co je nového – 3.1.0 (CS)
+
+----------------------------------------------------------------
+Peak Sleep 3.1 – ranní souhrn
+
+NOVÉ
+- Ranní souhrn v glance a na hlavní stránce: po probuzení ukáže, na kolik % ses dobil („Nabito na 92 %“), jestli jsi šel spát včas („pozdě o 35 min“) a sérii nocí („3 noci pod cílem“ / „5 nocí na cíli“). Zůstane do poledne.
+- Rozpoznání probuzení: noc se uzavře, když Body Battery přestane růst a ujdeš aspoň 100 kroků.
+
+OPRAVENO
+- Poslední noc se naučí hned po probuzení. Dřív to trvalo až zhruba 3 hodiny po obvyklém čase buzení, takže ráno stránka Poslední noci ukazovala „Zatím žádné noci“.
 ----------------------------------------------------------------
 
 ## Co je nového – 3.0.0 (CS)
