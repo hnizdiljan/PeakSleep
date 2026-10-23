@@ -21,6 +21,7 @@ Texts below are plain text – the store does not render Markdown (copy everythi
 | `store/screenshots/en-7-morning-glance.png` | Screenshot 7 – morning summary in the glance (new in 3.1.0) |
 | `store/screenshots/cs-1-glance.png`, `cs-2-answer.png` | Czech alternatives (for a Czech listing, if used) |
 
+The store allows at most 5 screenshots; 3.1.0 uses en-1 to en-4 and en-6 (en-5 and en-7 are spares).
 All screenshots are 500×500 PNG under 150 KB, rendered from the real app on fēnix 8 43mm.
 
 ---
@@ -120,7 +121,7 @@ CO UVIDÍŠ
 - Odpověď: prstenec Body Battery (tmavší část je to, co ještě večer vybiješ), čas usnutí, odpočet, BB při usnutí.
 - Proč: vstupy výpočtu – BB teď, večerní vybíjení, rychlost nabíjení a její zdroj.
 - Poslední noci: rychlost nabíjení až za 7 naučených nocí.
-- Ranní souhrn (po probuzení do poledne): „Nabito na 92 %“, jestli jsi šel spát včas („pozdě o 35 min“) a kolik nocí po sobě jsi cíl nestihl nebo splnil.
+- Ranní souhrn (po probuzení do poledne): „Nabito na 92 %“, jestli bylo usnutí včas („pozdě o 35 min“) a kolik nocí po sobě jsi cíl nestihl nebo splnil.
 
 JAK TO FUNGUJE
 - Služba na pozadí každých 30 minut uloží jednu hodnotu Body Battery.
@@ -148,7 +149,7 @@ Vyžaduje hodinky s Body Battery. Forerunner 645 / 645 Music / 935 už podporova
 Peak Sleep 3.1 – ranní souhrn
 
 NOVÉ
-- Ranní souhrn v glance a na hlavní stránce: po probuzení ukáže, na kolik % ses dobil („Nabito na 92 %“), jestli jsi šel spát včas („pozdě o 35 min“) a sérii nocí („3 noci pod cílem“ / „5 nocí na cíli“). Zůstane do poledne.
+- Ranní souhrn v glance a na hlavní stránce: po probuzení ukáže, na kolik % ses dobil („Nabito na 92 %“), jestli bylo usnutí včas („pozdě o 35 min“) a sérii nocí („3 noci pod cílem“ / „5 nocí na cíli“). Zůstane do poledne.
 - Rozpoznání probuzení: noc se uzavře, když Body Battery přestane růst a ujdeš aspoň 100 kroků.
 
 OPRAVENO
