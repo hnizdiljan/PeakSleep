@@ -5,14 +5,21 @@ module LearningMath {
 
     const MAX_NIGHTS = 7;
 
-    // Appends a valid night, keeping only the newest MAX_NIGHTS.
+    // Appends a valid night, keeping only the newest MAX_NIGHTS. A night that
+    // overlaps the last stored one is the same night seen again: it replaces it
+    // when it reaches a later wake (more samples came in), otherwise it is ignored.
     function addNight(stored as Array<Array>, n as Night?) as Array<Array> {
         if (n == null || !NightDetector.isValid(n)) {
             return stored;
         }
-        // The same night can be found again (e.g. after the alarm time changed).
-        if (stored.size() > 0 && n.wakeT <= Night.fromArray(stored[stored.size() - 1]).wakeT) {
-            return stored;
+        if (stored.size() > 0) {
+            var last = Night.fromArray(stored[stored.size() - 1]);
+            if (n.onsetT < last.wakeT) {
+                if (n.wakeT > last.wakeT) {
+                    stored[stored.size() - 1] = n.toArray();
+                }
+                return stored;
+            }
         }
         stored.add(n.toArray());
         if (stored.size() > MAX_NIGHTS) {

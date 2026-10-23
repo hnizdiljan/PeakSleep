@@ -63,6 +63,22 @@ function addNightRejectsSameOrOlderNight(logger as Logger) as Boolean {
 }
 
 (:test)
+function addNightReplacesGrowingNight(logger as Logger) as Boolean {
+    var stored = [] as Array<Array>;
+    // the night seen in the morning, before all samples are in
+    stored = LearningMath.addNight(stored, new Night(0, 40, 6 * 3600, 85, 2.0));
+    // the same night later, with a later wake
+    stored = LearningMath.addNight(stored, new Night(0, 40, 8 * 3600, 96, 2.0));
+    Test.assertEqual(stored.size(), 1);
+    Test.assertEqual(Night.fromArray(stored[0]).wakeT, 8 * 3600);
+    // a shorter detection of the same night does not replace it
+    stored = LearningMath.addNight(stored, new Night(3600, 45, 7 * 3600, 90, 2.0));
+    Test.assertEqual(stored.size(), 1);
+    Test.assertEqual(Night.fromArray(stored[0]).wakeT, 8 * 3600);
+    return true;
+}
+
+(:test)
 function windowsToProcessSkipsDone(logger as Logger) as Boolean {
     var older = [100, 200];
     var latest = [1100, 1200];

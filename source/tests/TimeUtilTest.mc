@@ -34,12 +34,45 @@ function sleepWindowMorning(logger as Logger) as Boolean {
 }
 
 (:test)
-function sleepWindowBeforeEnd(logger as Logger) as Boolean {
+function sleepWindowRightAfterWake(logger as Logger) as Boolean {
     var d = TimeUtil.DAY;
     var h = TimeUtil.HOUR;
+    // 08:00, woke at 07:00: last night's window is the current one, not the night before
     var w = TimeUtil.sleepWindow(10 * d, 10 * d + 8 * h, 23 * h, 7 * h);
-    Test.assertEqual(w[0], 9 * d - 4 * h);
-    Test.assertEqual(w[1], 9 * d + 10 * h);
+    Test.assertEqual(w[0], 10 * d - 4 * h);
+    Test.assertEqual(w[1], 10 * d + 10 * h);
+    return true;
+}
+
+(:test)
+function sleepWindowSwitchesAtWindowStart(logger as Logger) as Boolean {
+    var d = TimeUtil.DAY;
+    var h = TimeUtil.HOUR;
+    // 19:00: tonight's window (from 20:00) has not started yet
+    var w = TimeUtil.sleepWindow(10 * d, 10 * d + 19 * h, 23 * h, 7 * h);
+    Test.assertEqual(w[0], 10 * d - 4 * h);
+    // 21:00: tonight's window is running
+    w = TimeUtil.sleepWindow(10 * d, 10 * d + 21 * h, 23 * h, 7 * h);
+    Test.assertEqual(w[0], 11 * d - 4 * h);
+    Test.assertEqual(w[1], 11 * d + 10 * h);
+    return true;
+}
+
+(:test)
+function learningWindowsClipLatestToNow(logger as Logger) as Boolean {
+    var d = TimeUtil.DAY;
+    var h = TimeUtil.HOUR;
+    var ws = TimeUtil.learningWindows(10 * d, 10 * d + 8 * h, 23 * h, 7 * h);
+    var older = ws[0] as Array<Number>;
+    var latest = ws[1] as Array<Number>;
+    Test.assertEqual(older[0], 9 * d - 4 * h);
+    Test.assertEqual(older[1], 9 * d + 10 * h);
+    Test.assertEqual(latest[0], 10 * d - 4 * h);
+    // only samples up to now are available
+    Test.assertEqual(latest[1], 10 * d + 8 * h);
+    // after the window ends the full window is used
+    latest = TimeUtil.learningWindows(10 * d, 10 * d + 12 * h, 23 * h, 7 * h)[1] as Array<Number>;
+    Test.assertEqual(latest[1], 10 * d + 10 * h);
     return true;
 }
 

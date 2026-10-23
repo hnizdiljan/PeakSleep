@@ -1,5 +1,12 @@
 # Changelog - PeakSleep
 
+## [Verze 3.0.1] - Noc hned po probuzení (2026-10-23)
+
+### Opraveno
+- Poslední noc se naučila až 3 hodiny po obvyklém probuzení, takže ráno stránka Poslední noci
+  ukazovala „Zatím žádné noci“. Teď se noc vyhodnotí hned (ze vzorků do teď) a při dalším otevření
+  widgetu se zpřesní.
+
 ## [Verze 3.0] - Redesign: glance, učení z nocí, nové UX (2026-10-22)
 
 ### Nové

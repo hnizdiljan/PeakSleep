@@ -27,8 +27,10 @@
 - Uchovává se posledních 7 platných nocí.
 - Naučená rychlost = **medián** rychlostí, ale až od **3 platných nocí**.
 - Naučené vybíjení = medián vybíjení (výchozí bez dat 3 BB/h).
-- Při otevření widgetu se zpracují poslední 2 okna, každé jen jednou; stejná noc nalezená znovu
-  (např. po změně budíku) se nepřidá podruhé.
+- Při otevření widgetu se zpracuje předchozí okno a aktuální okno (to, které už začalo) se vzorky
+  do teď – poslední noc je tak vidět hned po probuzení. Při dalším otevření se aktuální noc znovu
+  vyhodnotí a pokud má pozdější probuzení, nahradí uložený záznam; jinak se stejná noc nalezená znovu
+  (např. po změně budíku) nepřidá podruhé.
 
 ## 4. Doporučený čas usnutí (`source/core/BedtimeCalc.mc`)
 

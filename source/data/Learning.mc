@@ -18,15 +18,13 @@ module Learning {
             BodyBatteryReader.read(), SampleBuffer.MAX_PAIRS, SampleBuffer.MIN_GAP));
     }
 
-    // Processes finished sleep windows not seen yet: the latest one and the one
-    // before it (the 48 h sample buffer still covers it), oldest first.
+    // Processes sleep windows with samples not seen yet: the current one (up to
+    // now, so last night shows up right after waking) and the one before it
+    // (the 48 h sample buffer still covers it), oldest first.
     function update(now as Number) as Void {
-        var today = Time.today().value();
-        var sleepSec = Settings.sleepSecOfDay();
-        var wakeSec = Settings.wakeSecOfDay();
-        var latest = TimeUtil.sleepWindow(today, now, sleepSec, wakeSec);
-        var older = TimeUtil.sleepWindow(today - TimeUtil.DAY, now - TimeUtil.DAY, sleepSec, wakeSec);
-        var todo = LearningMath.windowsToProcess(Application.Storage.getValue(KEY_LAST_WINDOW), older, latest);
+        var ws = TimeUtil.learningWindows(Time.today().value(), now, Settings.sleepSecOfDay(),
+                                          Settings.wakeSecOfDay());
+        var todo = LearningMath.windowsToProcess(Application.Storage.getValue(KEY_LAST_WINDOW), ws[0], ws[1]);
         if (todo.size() == 0) {
             return;
         }

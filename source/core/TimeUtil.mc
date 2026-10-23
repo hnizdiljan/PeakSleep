@@ -25,23 +25,35 @@ module TimeUtil {
         return alarm;
     }
 
-    // Most recent learning window [start, end] that has already ended at `now`.
+    // Most recent learning window [start, end] that has already started at `now`
+    // (it may still be running).
     function sleepWindow(todayMidnight as Number, now as Number, sleepSecOfDay as Number?,
                          wakeSecOfDay as Number) as [Number, Number] {
-        var wakeDay = todayMidnight;
-        if (wakeDay + wakeSecOfDay + WINDOW_MARGIN > now) {
+        var wakeDay = todayMidnight + DAY;
+        while (windowStart(wakeDay, sleepSecOfDay, wakeSecOfDay) > now) {
             wakeDay -= DAY;
         }
-        var end = wakeDay + wakeSecOfDay + WINDOW_MARGIN;
-        var start;
+        return [windowStart(wakeDay, sleepSecOfDay, wakeSecOfDay), wakeDay + wakeSecOfDay + WINDOW_MARGIN];
+    }
+
+    // Start of the window of the night that ends on `wakeDay` (local midnight).
+    function windowStart(wakeDay as Number, sleepSecOfDay as Number?, wakeSecOfDay as Number) as Number {
         if (sleepSecOfDay == null) {
-            start = wakeDay - DAY + FALLBACK_EVENING;
-        } else if (sleepSecOfDay > wakeSecOfDay) {
-            start = wakeDay - DAY + sleepSecOfDay - WINDOW_MARGIN;
-        } else {
-            start = wakeDay + sleepSecOfDay - WINDOW_MARGIN;
+            return wakeDay - DAY + FALLBACK_EVENING;
         }
-        return [start, end];
+        if (sleepSecOfDay > wakeSecOfDay) {
+            return wakeDay - DAY + sleepSecOfDay - WINDOW_MARGIN;
+        }
+        return wakeDay + sleepSecOfDay - WINDOW_MARGIN;
+    }
+
+    // [previous window, current window cut at `now`]. The current night is
+    // learned from the samples collected so far and refined on later visits.
+    function learningWindows(todayMidnight as Number, now as Number, sleepSecOfDay as Number?,
+                             wakeSecOfDay as Number) as [Array<Number>, Array<Number>] {
+        var latest = sleepWindow(todayMidnight, now, sleepSecOfDay, wakeSecOfDay);
+        var end = latest[1] < now ? latest[1] : now;
+        return [[latest[0] - DAY, latest[1] - DAY], [latest[0], end]];
     }
 
     // "1 h 20 min" / "45 min"; negative durations show as "0 min".
