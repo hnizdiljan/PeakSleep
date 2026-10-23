@@ -1,6 +1,13 @@
 # Changelog - PeakSleep
 
-## [Verze 3.0.1] - Noc hned po probuzení (2026-10-23)
+## [Verze 3.1.0] - Ranní souhrn (2026-10-23)
+
+### Nové
+- **Ranní souhrn** v glance a na hlavní stránce: po probuzení ukáže, na kolik % ses dobil
+  („Nabito na 92 %“), jestli jsi usnul včas („pozdě o 35 min“) a sérii nocí pod cílem / na cíli
+  („3 noci pod cílem“). Zobrazuje se do poledne (nejméně 2 h po probuzení).
+- **Rozpoznání probuzení**: noc je uzavřená, když Body Battery přestane růst a od půlnoci přibude
+  aspoň 100 kroků.
 
 ### Opraveno
 - Poslední noc se naučila až 3 hodiny po obvyklém probuzení, takže ráno stránka Poslední noci

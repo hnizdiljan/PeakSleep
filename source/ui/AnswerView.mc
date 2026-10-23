@@ -39,7 +39,6 @@ class AnswerView extends WatchUi.View {
 
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
         dc.clear();
-        drawRing(dc, p);
 
         var label = "";
         var big = "";
@@ -85,6 +84,24 @@ class AnswerView extends WatchUi.View {
             line2 = Theme.fmt(Rez.Strings.learning, [info.nights]);
             line2Short = Theme.fmt(Rez.Strings.learningShort, [info.nights]);
         }
+        // After waking up: how last night went instead of tonight's plan.
+        var morning = MorningData.current(now);
+        var ringColor = null;
+        if (morning != null) {
+            var wakeBB = morning[0] as Number;
+            label = Theme.str(Rez.Strings.labelLastNight);
+            big = Theme.fmt(Rez.Strings.pctValue, [wakeBB]);
+            bigFont = Graphics.FONT_NUMBER_MEDIUM;
+            bigColor = MorningData.color(wakeBB, info.target);
+            ringColor = bigColor;
+            sub = MorningData.lateText(morning[1] as Number);
+            subColor = Graphics.COLOR_WHITE;
+            line1 = MorningData.streakText(morning[2] as Number, morning[3] as Number);
+            line1Short = "";
+            line2 = "";
+            line2Short = "";
+        }
+        drawRing(dc, p, ringColor);
 
         var cx = w / 2;
         var small = Graphics.FONT_XTINY;
@@ -165,7 +182,8 @@ class AnswerView extends WatchUi.View {
     }
 
     // Track + current BB; the darker part is what the evening will still drain.
-    private function drawRing(dc as Dc, p as BedtimePlan) as Void {
+    // `color` replaces the plan colors (morning summary, no drain part).
+    private function drawRing(dc as Dc, p as BedtimePlan, color as Number?) as Void {
         var w = dc.getWidth();
         var pen = w / 25;
         if (pen < 4) {
@@ -186,8 +204,12 @@ class AnswerView extends WatchUi.View {
             if (atBed < 0) {
                 atBed = 0;
             }
-            drawLevel(dc, cx, cy, r, bb, Theme.darkColor(p.state));
-            drawLevel(dc, cx, cy, r, atBed, Theme.stateColor(p.state));
+            if (color != null) {
+                drawLevel(dc, cx, cy, r, bb, color);
+            } else {
+                drawLevel(dc, cx, cy, r, bb, Theme.darkColor(p.state));
+                drawLevel(dc, cx, cy, r, atBed, Theme.stateColor(p.state));
+            }
         }
         dc.setPenWidth(1);
     }

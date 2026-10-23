@@ -14,6 +14,7 @@ evening from your own nights, and shows the answer right in the glance list:
 |---|---|
 | **Glance** | Bedtime and a detail line. Colors: yellow = plan, blue = go to sleep now, red = target out of reach, green = already above target. |
 | **Page 1 – Answer** | Body Battery ring (the darker part is the drain predicted until bedtime), bedtime, countdown, Body Battery at bedtime and the target. |
+| **Morning** (glance and page 1) | After waking up until noon: "Charged to 92%", whether bedtime was on time ("35 min late") and the streak of nights below / at target. Wake-up is detected when Body Battery stops rising and at least 100 steps have been walked. |
 | **Page 2 – Why** | Inputs of the calculation: Body Battery now, evening drain, recharge rate and its source (auto / learning / manual), target. |
 | **Page 3 – Last nights** | Recharge rate of the last up to 7 learned nights (green = target reached) with average rate and sleep length. |
 

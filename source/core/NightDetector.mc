@@ -1,6 +1,7 @@
 import Toybox.Lang;
 
 // One detected night of sleep.
+(:glance)
 class Night {
     public var onsetT as Number;
     public var onsetBB as Number;
@@ -35,6 +36,7 @@ class Night {
     }
 }
 
+(:glance)
 module NightDetector {
 
     const MIN_SLEEP = 10800;

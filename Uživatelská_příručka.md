@@ -22,6 +22,13 @@ První 3 noci se widget učí. Do té doby používá ruční rychlost nabíjen�
 | BB je nad cílem | **BB 96 %** (zeleně) | dnes spát ~23:10 |
 | Učí se | Spát ve 22:40 | odhad · učím se 2/3 |
 | Chybí data | Peak Sleep | Body Battery nedostupné |
+| Ráno po probuzení | **Nabito na 92 %** (zeleně = cíl, žlutě = do 15 bodů pod, červeně = víc) | pozdě o 35 min · 3 noci pod cílem |
+
+**Ranní souhrn** se ukáže, když Body Battery po noci přestane růst a od půlnoci ujdeš aspoň 100 kroků
+(vzorky se berou po 30 minutách, takže zhruba 30–60 minut po vstání). Zůstane do poledne, nejméně 2 hodiny
+po probuzení. „Pozdě o 35 min“ znamená, o kolik dřív bys musel usnout, abys s rychlostí nabíjení té noci
+dosáhl cíle. Série počítá noci po sobě pod cílem / na cíli. Skutečnou délku spánku ani spánkovou
+deprivaci Garmin aplikacím nezpřístupňuje, série nedobitých nocí je nejbližší náhrada.
 
 ## Stránky widgetu
 

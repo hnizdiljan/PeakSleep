@@ -21,6 +21,18 @@
     <string id="learningShort" scope="glance">učím se $1$/3</string>
     <string id="bbAtBed">BB $1$ % · $2$ % při usnutí</string>
 
+    <!-- Ranní souhrn (glance a hlavní stránka) -->
+    <string id="morningCharged" scope="glance">Nabito na $1$ %</string>
+    <string id="bedOnTime" scope="glance">usnutí včas</string>
+    <string id="bedLate" scope="glance">pozdě o $1$</string>
+    <string id="streakBelowFew" scope="glance">$1$ noci pod cílem</string>
+    <string id="streakBelowMany" scope="glance">$1$ nocí pod cílem</string>
+    <string id="streakAtFew" scope="glance">$1$ noci na cíli</string>
+    <string id="streakAtMany" scope="glance">$1$ nocí na cíli</string>
+    <string id="streakBelowTiny" scope="glance">$1$× pod cílem</string>
+    <string id="streakAtTiny" scope="glance">$1$× na cíli</string>
+    <string id="labelLastNight">DNEŠNÍ NOC</string>
+
     <!-- Detail -->
     <string id="whyTitle">PROČ $1$</string>
     <string id="rowBbNow">BB teď</string>

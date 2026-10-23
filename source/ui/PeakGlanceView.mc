@@ -31,8 +31,10 @@ class PeakGlanceView extends WatchUi.GlanceView {
         var mainColor = Graphics.COLOR_WHITE;
         var detail = Theme.str(Rez.Strings.bbUnavailable);
         var detailColor = Theme.C_DIM;
-        // Used when `detail` does not fit the glance width.
+        // Used when `detail` (then `detailShort`, `main`) does not fit the glance width.
         var detailShort = "";
+        var detailTiny = "";
+        var mainShort = "";
 
         var bbText = p.bb == null ? "" : Theme.fmt(Rez.Strings.bbValue, [p.bb]);
         if (p.state == BedtimeCalc.STATE_PLAN) {
@@ -63,6 +65,21 @@ class PeakGlanceView extends WatchUi.GlanceView {
                 ? Theme.str(Rez.Strings.charged)
                 : Theme.fmt(Rez.Strings.tonightAround, [Theme.hm(p.bedtime as Number)]);
         }
+        // After waking up: how last night went instead of tonight's plan.
+        var morning = MorningData.current(now);
+        if (morning != null) {
+            var wakeBB = morning[0] as Number;
+            lead = "";
+            main = Theme.fmt(Rez.Strings.morningCharged, [wakeBB]);
+            mainShort = Theme.fmt(Rez.Strings.bbValue, [wakeBB]);
+            mainColor = MorningData.color(wakeBB, info.target);
+            var late = MorningData.lateText(morning[1] as Number);
+            var streak = MorningData.streakText(morning[2] as Number, morning[3] as Number);
+            detail = streak.equals("") ? late : late + " · " + streak;
+            detailShort = streak.equals("") ? late : streak;
+            detailTiny = MorningData.streakTiny(morning[2] as Number, morning[3] as Number);
+            detailColor = Theme.C_DIM;
+        }
 
         var mainFont = Graphics.FONT_TINY;
         var detailFont = Graphics.FONT_XTINY;
@@ -73,6 +90,9 @@ class PeakGlanceView extends WatchUi.GlanceView {
             if (dc.getTextWidthInPixels(lead + main, mainFont) > avail) {
                 lead = "";
             }
+        }
+        if (dc.getTextWidthInPixels(main, mainFont) > avail && !mainShort.equals("")) {
+            main = mainShort;
         }
         if (dc.getTextWidthInPixels(main, mainFont) > avail) {
             main = Graphics.fitTextToArea(main, mainFont, avail, dc.getFontHeight(mainFont), true);
@@ -87,6 +107,9 @@ class PeakGlanceView extends WatchUi.GlanceView {
         dc.drawText(x + dc.getTextWidthInPixels(lead, mainFont), top, mainFont, main, Graphics.TEXT_JUSTIFY_LEFT);
         if (dc.getTextWidthInPixels(detail, detailFont) > avail && !detailShort.equals("")) {
             detail = detailShort;
+        }
+        if (dc.getTextWidthInPixels(detail, detailFont) > avail && !detailTiny.equals("")) {
+            detail = detailTiny;
         }
         if (dc.getTextWidthInPixels(detail, detailFont) > avail) {
             detail = Graphics.fitTextToArea(detail, detailFont, avail, detailH, true);

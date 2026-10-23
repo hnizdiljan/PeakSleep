@@ -24,7 +24,7 @@ class SampleService extends System.ServiceDelegate {
     }
 }
 
-(:background)
+(:background, :glance)
 module SampleStore {
     const KEY = "samples";
 }
