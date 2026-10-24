@@ -1,5 +1,12 @@
 # Changelog - PeakSleep
 
+## [Verze 3.2.0] - Další jazyky (2026-10-24)
+
+### Nové
+- **7 nových jazyků**: španělština, němčina, francouzština, italština, portugalština, nizozemština
+  a polština (kromě angličtiny a češtiny). Jazyk se řídí nastavením hodinek, nastavení v Garmin
+  Connect jazykem telefonu.
+
 ## [Verze 3.1.0] - Ranní souhrn (2026-10-23)
 
 ### Nové

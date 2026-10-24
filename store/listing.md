@@ -1,8 +1,8 @@
-# Connect IQ Store listing – Peak Sleep 3.1.0
+# Connect IQ Store listing – Peak Sleep 3.2.0
 
 Store page: https://apps.garmin.com/apps/959a7cf1-fcbf-43fa-970b-93e469f4e4f8
-Package: `publish/PeakSleep-3.1.0.iq` (signed with `developer_key`, same key as 1.x)
-Version to enter on upload: **3.1.0** (store has 3.0.0, released 2026-10-22)
+Package: `publish/PeakSleep-3.2.0.iq` (signed with `developer_key`, same key as 1.x)
+Version to enter on upload: **3.2.0** (store has 3.1.0, released 2026-10-23)
 
 Texts below are plain text – the store does not render Markdown (copy everything between the lines).
 
@@ -59,8 +59,19 @@ TIPS
 - Open the widget at least every other day so no night is missed.
 - Nights with a gap in data longer than 2 hours (watch off or charging) are skipped.
 
-Languages: English, Czech.
+Languages: English, Spanish, German, French, Italian, Portuguese, Dutch, Polish, Czech.
 Requires a watch with Body Battery. Forerunner 645 / 645 Music / 935 are no longer supported (no Body Battery API).
+----------------------------------------------------------------
+
+## What's New – 3.2.0 (EN)
+
+----------------------------------------------------------------
+Peak Sleep 3.2 – more languages
+
+NEW
+- Peak Sleep now speaks Spanish, German, French, Italian, Portuguese, Dutch and Polish (plus English and Czech). The widget follows your watch language, the settings in Garmin Connect follow your phone language.
+
+Includes everything from 3.1: morning summary after waking up ("Charged to 92%", bedtime on time or late, streak of nights).
 ----------------------------------------------------------------
 
 ## What's New – 3.1.0 (EN)
@@ -139,8 +150,17 @@ TIPY
 - Otevři widget aspoň jednou za 2 dny, ať se žádná noc neztratí.
 - Noc s mezerou v datech delší než 2 hodiny (vypnuté nebo nabíjené hodinky) se nezapočítá.
 
-Jazyky: angličtina, čeština.
+Jazyky: angličtina, španělština, němčina, francouzština, italština, portugalština, nizozemština, polština, čeština.
 Vyžaduje hodinky s Body Battery. Forerunner 645 / 645 Music / 935 už podporované nejsou (nemají API pro Body Battery).
+----------------------------------------------------------------
+
+## Co je nového – 3.2.0 (CS)
+
+----------------------------------------------------------------
+Peak Sleep 3.2 – další jazyky
+
+NOVÉ
+- Peak Sleep teď umí španělsky, německy, francouzsky, italsky, portugalsky, nizozemsky a polsky (kromě angličtiny a češtiny). Widget se řídí jazykem hodinek, nastavení v Garmin Connect jazykem telefonu.
 ----------------------------------------------------------------
 
 ## Co je nového – 3.1.0 (CS)

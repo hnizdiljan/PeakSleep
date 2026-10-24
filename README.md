@@ -60,7 +60,8 @@ The watch menu also offers **Reset learned data**.
 
 ## Languages
 
-English, Czech.
+English, Czech, Spanish, German, French, Italian, Portuguese, Dutch, Polish
+(`resources-<code>/strings/strings.xml`, codes listed in `manifest.xml`).
 
 ## Permissions
 

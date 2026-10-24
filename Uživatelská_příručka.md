@@ -74,6 +74,11 @@ budíku „Ruční“.
 
 Podrobnosti: `Výpočet_Recharge_Rate.md`.
 
+## Jazyky
+
+Angličtina, čeština, španělština, němčina, francouzština, italština, portugalština, nizozemština
+a polština. Widget mluví jazykem hodinek, nastavení v Garmin Connect jazykem telefonu.
+
 ## Podporované hodinky
 
 fēnix 6/7/8, Forerunner 245, 745, 945 (LTE), 955, 965, Venu, Venu 2, vívoactive 4/4S/5/6.

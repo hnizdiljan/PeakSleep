@@ -1,0 +1,71 @@
+<strings>
+    <string id="AppName" scope="glance">Peak Sleep</string>
+
+    <!-- Glance and answer page -->
+    <string id="sleepAtV" scope="glance">Dormi alle</string>
+    <string id="sleepAtVe" scope="glance">Dormi alle</string>
+    <string id="labelSleepAtV">DORMI ALLE</string>
+    <string id="labelSleepAtVe">DORMI ALLE</string>
+    <string id="inDuration" scope="glance">tra $1$</string>
+    <string id="goToSleepNow" scope="glance">Vai a dormire ora</string>
+    <string id="sleepNow" scope="glance">Dormi subito</string>
+    <string id="onlyReach" scope="glance">solo $1$% alla sveglia</string>
+    <string id="targetBy" scope="glance">$1$% alle $2$</string>
+    <string id="tonightAround" scope="glance">stasera ~$1$</string>
+    <string id="charged" scope="glance">carico</string>
+    <string id="learning" scope="glance">stima · apprendo $1$/3</string>
+    <string id="bbUnavailable" scope="glance">Body Battery non disponibile</string>
+    <string id="bbValue" scope="glance">BB $1$%</string>
+    <string id="pctValue">$1$%</string>
+    <string id="bbAtBedShort">$1$% a letto</string>
+    <string id="learningShort" scope="glance">apprendo $1$/3</string>
+    <string id="bbAtBed">BB $1$% · $2$% a letto</string>
+
+    <!-- Morning summary -->
+    <string id="morningCharged" scope="glance">Carica al $1$%</string>
+    <string id="bedOnTime" scope="glance">a letto in orario</string>
+    <string id="bedLate" scope="glance">$1$ in ritardo</string>
+    <string id="streakBelowFew" scope="glance">$1$ notti sotto obiettivo</string>
+    <string id="streakBelowMany" scope="glance">$1$ notti sotto obiettivo</string>
+    <string id="streakAtFew" scope="glance">$1$ notti riuscite</string>
+    <string id="streakAtMany" scope="glance">$1$ notti riuscite</string>
+    <string id="streakBelowTiny" scope="glance">$1$× sotto</string>
+    <string id="streakAtTiny" scope="glance">$1$× riuscite</string>
+    <string id="labelLastNight">STANOTTE</string>
+
+    <!-- Detail page -->
+    <string id="whyTitle">PERCHÉ $1$</string>
+    <string id="rowBbNow">BB ora</string>
+    <string id="rowDrain">Scarica serale</string>
+    <string id="rowRate">Ricarica</string>
+    <string id="rowTarget">Obiettivo</string>
+    <string id="srcAuto">auto · $1$ $2$</string>
+    <string id="srcManual">manuale</string>
+    <string id="nightOne">notte</string>
+    <string id="nightFew">notti</string>
+    <string id="nightMany">notti</string>
+
+    <!-- History page -->
+    <string id="historyTitle">ULTIME NOTTI</string>
+    <string id="historyEmpty">Ancora nessuna notte. Torna domattina.</string>
+    <string id="historyAvg">Ø $1$ BB/h · $2$</string>
+
+    <!-- On-watch menu -->
+    <string id="menuTitle">Impostazioni</string>
+    <string id="menuReset">Cancella dati appresi</string>
+    <string id="menuResetConfirm">Cancellare i dati appresi?</string>
+    <string id="menuAlarmTime">Orario sveglia</string>
+
+    <!-- Settings -->
+    <string id="setTarget">Body Battery obiettivo</string>
+    <string id="setTargetPrompt">Percentuale (50-100)</string>
+    <string id="setRateMode">Velocità di ricarica</string>
+    <string id="setRate">Velocità di ricarica manuale</string>
+    <string id="setRatePrompt">Punti BB all'ora (1-30)</string>
+    <string id="setWakeSource">Origine della sveglia</string>
+    <string id="setWakeHour">Ora della sveglia</string>
+    <string id="setWakeMinute">Minuti della sveglia</string>
+    <string id="optAuto">Auto (appresa)</string>
+    <string id="optManual">Manuale</string>
+    <string id="optProfile">Programma sonno Garmin</string>
+</strings>

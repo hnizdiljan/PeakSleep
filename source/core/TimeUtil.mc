@@ -75,7 +75,8 @@ module TimeUtil {
         return (hour >= 2 && hour <= 4) || (hour >= 12 && hour <= 14) || hour >= 20;
     }
 
-    // Czech plural form: 0 = one, 1 = few (2-4), 2 = many.
+    // Plural form: 0 = one, 1 = few (2-4), 2 = many. Matches Czech; also Polish for the
+    // small counts used here (up to 7 nights). Other languages use the same text for few and many.
     function pluralIndex(n as Number) as Number {
         if (n == 1) {
             return 0;
