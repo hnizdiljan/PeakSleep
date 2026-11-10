@@ -81,5 +81,5 @@ a polština. Widget mluví jazykem hodinek, nastavení v Garmin Connect jazykem 
 
 ## Podporované hodinky
 
-fēnix 6/7/8, Forerunner 245, 745, 945 (LTE), 955, 965, Venu, Venu 2, vívoactive 4/4S/5/6.
+fēnix 6/7/8, Forerunner 245, 265/265S, 745, 945 (LTE), 955, 965, Venu, Venu 2, vívoactive 4/4S/5/6.
 Forerunner 645 a 935 od verze 3.0 podporované nejsou – jejich firmware nemá API pro Body Battery.

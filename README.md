@@ -54,8 +54,8 @@ The watch menu also offers **Reset learned data**.
 
 ## Supported devices
 
-29 Connect IQ devices with Body Battery: fēnix 6/7/8 series, Forerunner 245, 745, 945 (LTE), 955,
-965, Venu, Venu 2, vívoactive 4/4S/5/6 (see `manifest.xml`). Forerunner 645 and 935 were dropped in
+31 Connect IQ devices with Body Battery: fēnix 6/7/8 series, Forerunner 245, 265/265S, 745,
+945 (LTE), 955, 965, Venu, Venu 2, vívoactive 4/4S/5/6 (see `manifest.xml`). Forerunner 645 and 935 were dropped in
 3.0 because their firmware has no Body Battery API.
 
 ## Languages

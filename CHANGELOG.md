@@ -1,5 +1,11 @@
 # Changelog - PeakSleep
 
+## [Verze 3.3.0] - Forerunner 265 / 265S (2026-11-10)
+
+### Nové
+- **Podpora Forerunner 265 a 265S** (na přání uživatele). Rozvržení ověřené v simulátoru i na
+  menším 360px displeji 265S.
+
 ## [Verze 3.2.0] - Další jazyky (2026-10-24)
 
 ### Nové

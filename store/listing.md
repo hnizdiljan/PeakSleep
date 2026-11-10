@@ -1,8 +1,8 @@
-# Connect IQ Store listing – Peak Sleep 3.2.0
+# Connect IQ Store listing – Peak Sleep 3.3.0
 
 Store page: https://apps.garmin.com/apps/959a7cf1-fcbf-43fa-970b-93e469f4e4f8
-Package: `publish/PeakSleep-3.2.0.iq` (signed with `developer_key`, same key as 1.x)
-Version to enter on upload: **3.2.0** (store has 3.1.0, released 2026-10-23)
+Package: `publish/PeakSleep-3.3.0.iq` (signed with `developer_key`, same key as 1.x)
+Version to enter on upload: **3.3.0** (store has 3.2.0)
 
 Texts below are plain text – the store does not render Markdown (copy everything between the lines).
 
@@ -61,6 +61,17 @@ TIPS
 
 Languages: English, Spanish, German, French, Italian, Portuguese, Dutch, Polish, Czech.
 Requires a watch with Body Battery. Forerunner 645 / 645 Music / 935 are no longer supported (no Body Battery API).
+----------------------------------------------------------------
+
+## What's New – 3.3.0 (EN)
+
+----------------------------------------------------------------
+Peak Sleep 3.3 – Forerunner 265 / 265S
+
+NEW
+- Support for Forerunner 265 and 265S.
+
+Includes everything from 3.2: Spanish, German, French, Italian, Portuguese, Dutch and Polish.
 ----------------------------------------------------------------
 
 ## What's New – 3.2.0 (EN)
@@ -152,6 +163,17 @@ TIPY
 
 Jazyky: angličtina, španělština, němčina, francouzština, italština, portugalština, nizozemština, polština, čeština.
 Vyžaduje hodinky s Body Battery. Forerunner 645 / 645 Music / 935 už podporované nejsou (nemají API pro Body Battery).
+----------------------------------------------------------------
+
+## Co je nového – 3.3.0 (CS)
+
+----------------------------------------------------------------
+Peak Sleep 3.3 – Forerunner 265 / 265S
+
+NOVÉ
+- Podpora hodinek Forerunner 265 a 265S.
+
+Obsahuje vše z verze 3.2: španělštinu, němčinu, francouzštinu, italštinu, portugalštinu, nizozemštinu a polštinu.
 ----------------------------------------------------------------
 
 ## Co je nového – 3.2.0 (CS)
